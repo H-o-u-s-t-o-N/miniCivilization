@@ -1,25 +1,20 @@
 package com.game.miniCivilization.domain;
 
 import lombok.Data;
-import lombok.Generated;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 
+import javax.annotation.processing.Generated;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
 @Entity
 @Data
-@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 @Embeddable
-public class Unit {
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
+public class City {
     @Id
-    @Generated
+    @GeneratedValue
     private long id;
-    private int cost;
-    private int health;
-    private int damage;
-    private String name;
-
 }
