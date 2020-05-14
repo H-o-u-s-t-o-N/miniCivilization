@@ -1,18 +1,26 @@
 let SIDE = 5;
-// let gameField = [[]];
-
 console.log("it's working")
 
+window.onload = function loadScript() {
+    let element = document.querySelector('#table');
 
-// for (let i = 0; i < SIDE; i++) {
-//     for (let j = 0; j < SIDE; j++) {
-//         gameField[i][j] = "some name";
-//     }
-// }
-// for (var i = 0; i <= SIDE; i++) {
-//     table.innerHTML += "<tr>";
-//     for (var j = 0; j <= SIDE; j++) {
-//         table.innerHTML += "<td>" + "Text" + "</td>";
-//     }
-//     table.innerHTML += "</tr>";
-// }
+    function creatTable(elem) {
+        let table = document.createElement("table");
+
+        for (let i = 0; i < SIDE; i++) {
+            let tr = document.createElement("tr");
+
+            for (let j = 0; j < SIDE; j++) {
+                let td = document.createElement("td");
+                td.innerText = "some text"
+                tr.appendChild(td);
+            }
+            table.appendChild(tr);
+        }
+        elem.appendChild(table);
+    }
+
+    creatTable(element);
+}
+
+

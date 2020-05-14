@@ -5,10 +5,8 @@ import com.game.miniCivilization.repository.CityRepo;
 import com.game.miniCivilization.repository.MainRepo;
 import com.game.miniCivilization.repository.UnitRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 
 @Service
 public class MainService {

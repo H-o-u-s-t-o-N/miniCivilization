@@ -1,20 +1,30 @@
 package com.game.miniCivilization.domain;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
-
-import javax.annotation.processing.Generated;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+
 @Entity
-@Data
-@Embeddable
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
+@Data
+@NoArgsConstructor
 public class City {
     @Id
-    @GeneratedValue
+//    @GeneratedValue
     private long id;
+    private String name;
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

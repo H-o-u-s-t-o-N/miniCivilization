@@ -4,10 +4,7 @@ import lombok.*;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 //@Getter
@@ -16,10 +13,13 @@ import javax.persistence.Id;
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class Tile {
     @Id
-//    @GeneratedValue
+//    @GeneratedValue()
     private int id;
-//    @Embedded
-//    private Unit unit;
+
+    private int coordX;
+    private int coordY;
+    @OneToOne
+    private City city;
     private String name;
 
     public Tile() {
@@ -44,5 +44,29 @@ public class Tile {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getCoordX() {
+        return coordX;
+    }
+
+    public void setCoordX(int coordX) {
+        this.coordX = coordX;
+    }
+
+    public int getCoordY() {
+        return coordY;
+    }
+
+    public void setCoordY(int coordY) {
+        this.coordY = coordY;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
     }
 }
