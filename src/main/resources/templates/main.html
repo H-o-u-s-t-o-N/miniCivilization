@@ -8,7 +8,20 @@
 
 </head>
 <body>
-<p th:text="'Hello, ' + ${name} + '!'" />
-    <div id="table"></div>
+<div class="content">
+    <div class="body">
+        <div class="hello">
+            <p th:text="'Hello, ' + ${name} + '!'" />
+        </div>
+        <div>
+            <form>
+                <input type="button" value="Create" onclick="show()">
+            </form>
+        </div>
+        <div id="table">
+
+        </div>
+    </div>
+</div>
 </body>
 </html>
