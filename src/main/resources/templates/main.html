@@ -11,16 +11,31 @@
 <div class="content">
     <div class="body">
         <div class="hello">
-            <p th:text="'Hello, ' + ${name} + '!'" />
+<!--            <p th:text="'Hello, ' + ${name} + '!'" />-->
+            <h1>miniCivilization</h1>
         </div>
-        <div>
+        <div class="start">
             <form>
-                <input type="button" value="Create" onclick="show()">
+<!--                <input class="startButton" type="button" value="Create" onclick="createTable()">-->
+                <input class="startButton" type="button" value="RefreshDB" onclick="getTiles(urlAllTile)">
+                <input class="startButton" type="button" value="RefreshTable" onclick="refreshTable()">
+            </form>
+        </div>
+        <div class="interface">
+            <form id="creatUnitForm">
+                <input type="number" name="idTile" placeholder="idTile">
+                <button type="submit" id="createUnitButton" onclick="createUnit()">Create Unit</button>
+            </form>
+            <form id="moveUnitForm">
+                <input type="number" name="idStart" placeholder="idStart">
+                <input type="number" name="idEnd" placeholder="idEnd">
+                <button type="submit" onclick="moveUnit()">Move</button>
             </form>
         </div>
         <div id="table">
 
         </div>
+
     </div>
 </div>
 </body>

@@ -2,6 +2,7 @@ package com.game.miniCivilization.controller;
 
 import com.game.miniCivilization.MainService;
 import com.game.miniCivilization.domain.Tile;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,23 +21,19 @@ public class RestControl {
     public Tile findOne(@PathVariable Long id){
         return mainService.findOnebyId(id);
     }
-    @PostMapping
-    public Tile creatTile(@RequestBody Tile tile){
-        return mainService.saveTile(tile);
-    }
+
     @PostMapping("/moveUnit")
-//  postman http://localhost:8080/tile/moveUnit?idStart=10&idEnd=5     NULL
-    public void moveUnit(@PathParam("idStart") Long tileIdStart,
-                         @PathParam("idEnd") Long tileIdEnd){
+    public void moveUnit(@RequestParam(value = "idStart") @NonNull Long tileIdStart,
+                         @RequestParam(value = "idEnd") @NonNull Long tileIdEnd){
         mainService.moveUnit(tileIdStart,tileIdEnd);
     }
-    @PutMapping("/creatCity/{idTile}")
+    @PutMapping("/createCity/{idTile}")
     public void  createCity(@PathVariable Long idTile){
         mainService.creatCity(idTile);
     }
 
-    @PutMapping("/creatUnit/{idTile}")
-    public void  createUnit(@PathVariable Long idTile){
-        mainService.creatUnit(idTile);
+    @PostMapping("/createUnit")
+    public void  createUnit(@RequestParam(value = "idTile") @NonNull Long tileId){
+        mainService.creatUnit(tileId);
     }
 }
