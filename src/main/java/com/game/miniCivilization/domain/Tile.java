@@ -21,6 +21,7 @@ public class Tile {
     private City city;
     @OneToOne
     private Unit unit;
+    private String land;
     private String name;
 
     public Tile() {
@@ -39,7 +40,7 @@ public class Tile {
     }
 
     public void setName(String name) {
-        this.name = "Tile_"+name;
+        this.name = name;
     }
 
 //    public int getCoordX() {
@@ -57,6 +58,14 @@ public class Tile {
 //    public void setCoordY(int coordY) {
 //        this.coordY = coordY;
 //    }
+
+    public void setLand(String land) {
+        this.land = land;
+    }
+
+    public String getLand() {
+        return land;
+    }
 
     public City getCity() {
         return city;

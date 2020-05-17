@@ -32,10 +32,6 @@ public class MainService {
             .orElseThrow();
     }
 
-    public Tile saveTile(Tile tile){
-        return mainRepo.save(tile);
-    }
-// its 100% working without argument
     public void moveUnit(Long tileIdStart, Long tileIdEnd){
         Tile tempStart = mainRepo.findById(tileIdStart).get();
         Tile tempEnd = mainRepo.findById(tileIdEnd).get();
@@ -57,8 +53,7 @@ public class MainService {
     public void creatUnit(Long id) {
         Tile tile = mainRepo.findById(id).get();
         Unit unit = new Unit();
-        unit.setId(2);
-        unit.setName(2+"");
+        unit.setName(tile.getName());
         unitRepo.save(unit);
         tile.setUnit(unit);
         mainRepo.save(tile);

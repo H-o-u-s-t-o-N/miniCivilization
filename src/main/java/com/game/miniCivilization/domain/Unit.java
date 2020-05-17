@@ -15,7 +15,7 @@ import javax.persistence.Id;
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class Unit {
     @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private int cost;
     private int health;
