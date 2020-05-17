@@ -4,10 +4,7 @@ import lombok.*;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 //@Getter
@@ -16,25 +13,24 @@ import javax.persistence.Id;
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class Tile {
     @Id
-//    @GeneratedValue
-    private int id;
-//    @Embedded
-//    private Unit unit;
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+//    private int coordX;
+//    private int coordY;
+    @OneToOne
+    private City city;
+    @OneToOne
+    private Unit unit;
     private String name;
 
     public Tile() {
     }
 
-    public Tile(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -43,6 +39,38 @@ public class Tile {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = "Tile_"+name;
+    }
+
+//    public int getCoordX() {
+//        return coordX;
+//    }
+//
+//    public void setCoordX(int coordX) {
+//        this.coordX = coordX;
+//    }
+//
+//    public int getCoordY() {
+//        return coordY;
+//    }
+//
+//    public void setCoordY(int coordY) {
+//        this.coordY = coordY;
+//    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
     }
 }

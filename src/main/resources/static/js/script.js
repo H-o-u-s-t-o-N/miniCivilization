@@ -1,18 +1,50 @@
-let SIDE = 5;
-// let gameField = [[]];
-
 console.log("it's working")
+let SIDE = 16;
+let iter = 0;
+let commits
+let urlAllTile = 'http://localhost:8080/tile'
 
 
-// for (let i = 0; i < SIDE; i++) {
-//     for (let j = 0; j < SIDE; j++) {
-//         gameField[i][j] = "some name";
-//     }
-// }
-// for (var i = 0; i <= SIDE; i++) {
-//     table.innerHTML += "<tr>";
-//     for (var j = 0; j <= SIDE; j++) {
-//         table.innerHTML += "<td>" + "Text" + "</td>";
-//     }
-//     table.innerHTML += "</tr>";
-// }
+
+
+window.onload = async function main() {
+    await getTiles(urlAllTile)
+    creatTable()
+}
+
+async function getTiles(url) {
+    let response = await fetch(url);
+    commits = await response.json();
+
+}
+function show() {
+    console.log(commits)
+}
+function creatTable() {
+    let element = document.querySelector('#table');
+    let table = document.createElement("table")
+    for (let i = 0; i < SIDE; i++) {
+        let tr = document.createElement("tr");
+
+        for (let j = 0; j < SIDE; j++) {
+
+            let td = document.createElement("td");
+
+                td.setAttribute("id", commits[iter].name)
+                td.innerHTML = ". "
+                if(commits[iter].unit !== null){
+                    td.innerHTML = commits[iter].unit.name
+                }
+                // console.log(commits[iter].name)
+                // console.log(iter)
+                tr.appendChild(td);
+                // if(iter<249)
+                    iter++
+        }
+        table.appendChild(tr);
+    }
+    element.appendChild(table);
+    iter = 0
+}
+
+
