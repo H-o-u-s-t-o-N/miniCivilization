@@ -11,10 +11,8 @@ import javax.annotation.PostConstruct;
 
 @SpringBootApplication
 public class MiniCivilizationApplication {
-	@Autowired
-	private MainRepo mainRepo;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Throwable {
 		SpringApplication.run(MiniCivilizationApplication.class, args);
 	}
 

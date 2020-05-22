@@ -1,39 +1,72 @@
 package com.game.miniCivilization.domain;
 
-import lombok.Data;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.Scope;
 
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
-@Data
-@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class Unit {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private int cost;
-    private int health;
-    private int damage;
-    private String name;
+
+    protected int cost;
+    protected int health;
+    protected int damage;
+    protected String name;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    protected User player;
 
     public Unit() {
-        this.cost = 300;
-        this.health = 100;
         this.damage = 50;
-        this.name = "Unknown";
+        this.health = 100;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public Unit(User player) {
+        this.player = player;
+        this.damage = 50;
+        this.health = 100;
+        this.name = "SuperUnit";
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = "Unit_"+name;
+    }
+
+    public User getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(User player) {
+        this.player = player;
     }
 }

@@ -6,6 +6,8 @@
 //import org.springframework.context.annotation.Scope;
 //
 //import javax.persistence.Entity;
+//import javax.persistence.GeneratedValue;
+//import javax.persistence.GenerationType;
 //import javax.persistence.Id;
 //
 //@Entity
@@ -13,23 +15,16 @@
 //@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 //public class Archer extends Unit {
 //    @Id
-//    private Integer id;
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    private long id;
+//
 //    public Archer() {
-//        this.setCost(300);
-//        this.setDamage(100);
-//        this.setHealth(100);
-//    }
-//
-//    public Integer getId() {
-//        return id;
-//    }
-//
-//    public void setId(Integer id) {
-//        this.id = id;
+//        this.damage = 100;
+//        this.health = 100;
 //    }
 //
 //    @Override
 //    public void setName(String name) {
-//        super.setName("Archer "+name);
+//        super.setName("Archer_"+name);
 //    }
 //}

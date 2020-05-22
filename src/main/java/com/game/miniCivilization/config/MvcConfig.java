@@ -13,7 +13,11 @@ import org.thymeleaf.templatemode.TemplateMode;
 @Configuration
 @ComponentScan("com.game.miniCivilization")
 @EnableWebMvc
-public class MvcConfig extends WebMvcConfigurerAdapter {
+public class MvcConfig implements WebMvcConfigurer {
+
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/login").setViewName("login");
+    }
 
     @Bean
     public SpringResourceTemplateResolver templateResolver(){
@@ -24,10 +28,10 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         templateResolver.setPrefix("classpath:/templates/");
         templateResolver.setSuffix(".html");
         // HTML is the default value, added here for the sake of clarity.
-//        templateResolver.setTemplateMode(TemplateMode.HTML);
+        templateResolver.setTemplateMode(TemplateMode.HTML);
         // Template cache is true by default. Set to false if you want
         // templates to be automatically updated when modified.
-        templateResolver.setCacheable(false);
+        templateResolver.setCacheable(true);
         return templateResolver;
     }
 
@@ -57,9 +61,9 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         // NOTE 'order' and 'viewNames' are optional
         viewResolver.setOrder(1);
 //        viewResolver.setViewNames(new String[] {".html", ".xhtml"});
-        String[] excludedViews = new String[] {
-                "/resources/static/*"};
-        viewResolver.setExcludedViewNames(excludedViews);
+//        String[] excludedViews = new String[] {
+//                "/resources/static/*"};
+//        viewResolver.setExcludedViewNames(excludedViews);
         return viewResolver;
     }
 
@@ -71,8 +75,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/js/**").addResourceLocations("classpath:/static/js/");
-        registry.addResourceHandler("/css/**").addResourceLocations("classpath:/static/css/");
-        registry.addResourceHandler("/img/**").addResourceLocations("classpath:/static/img/");
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+
     }
 }
