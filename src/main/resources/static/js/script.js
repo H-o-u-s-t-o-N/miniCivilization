@@ -4,10 +4,10 @@ let iter = 0;
 let commits
 let urlAllTile = 'http://localhost:8080/tile'
 let urlCreateUnit = 'http://localhost:8080/tile/createUnit'
-// let urlCreateArcher = 'http://localhost:8080/tile/createArcher'
-// let urlCreateWarrior = 'http://localhost:8080/tile/createWarrior'
-let urlMoveUnit = 'http://localhost:8080/tile/moveUnit'
-
+let urlCreateArcher = 'http://localhost:8080/unit/createArcher'
+let urlCreateWarrior = 'http://localhost:8080/unit/createWarrior'
+let urlMoveUnit = 'http://localhost:8080/unit/moveUnit'
+let urlRestoreActionPoints = 'http://localhost:8080/game'
 
 
 window.onload = async function main() {
@@ -20,10 +20,17 @@ async function getTiles(url) {
     commits = await response.json();
 
 }
+function restoreActionPoints() {
+    fetch(urlRestoreActionPoints,{
+        method: 'POST',
+        redirect: "manual"
+    })
+}
+
 function createUnit() {
     let form = new FormData(document.getElementById('createUnitForm'))
     if(form.values()!==null) {
-        console.log(form)
+        // console.log(form)
         fetch(urlCreateUnit,
             {
                 method: 'POST',
@@ -34,30 +41,30 @@ function createUnit() {
     }
 }
 
-// function createArcher() {
-//     let form = new FormData(document.getElementById('createArcherForm'))
-//     if(form.values()!==null) {
-//         console.log(form)
-//         fetch(urlCreateArcher,
-//             {
-//                 method: 'POST',
-//                 redirect: "manual",
-//                 body: form
-//             })
-//     }
-// }
-// function createWarrior() {
-//     let form = new FormData(document.getElementById('createWarriorForm'))
-//     if(form.values()!==null) {
-//         console.log(form)
-//         fetch(urlCreateWarrior,
-//             {
-//                 method: 'POST',
-//                 redirect: "manual",
-//                 body: form
-//             })
-//     }
-// }
+function createArcher() {
+    let form = new FormData(document.getElementById('createArcherForm'))
+    if(form.values()!==null) {
+        console.log(form)
+        fetch(urlCreateArcher,
+            {
+                method: 'POST',
+                redirect: "manual",
+                body: form
+            })
+    }
+}
+function createWarrior() {
+    let form = new FormData(document.getElementById('createWarriorForm'))
+    if(form.values()!==null) {
+        console.log(form)
+        fetch(urlCreateWarrior,
+            {
+                method: 'POST',
+                redirect: "manual",
+                body: form
+            })
+    }
+}
 function moveUnit() {
     let form = new FormData(document.getElementById('moveUnitForm'))
     if(form.values()!==null) {
@@ -102,8 +109,6 @@ function createTable() {
                     td.innerHTML += "<br>"
                     td.innerHTML += commits[iter].unit.health
                     td.innerHTML += "<br>"
-                    td.innerHTML += commits[iter].unit.player.username
-                    td.innerHTML += "<br>"
                     td.innerHTML += commits[iter].id
                 }else {
                     td.innerHTML = " . "
@@ -111,9 +116,10 @@ function createTable() {
                     td.innerHTML += commits[iter].id
                 }
                 if(commits[iter].land === "Mountain"){
-                    td.style.backgroundColor = "darkgrey"
+                    // td.style.backgroundColor = "darkgrey"
+                    td.classList.add("mountain")
                 }else {
-                    td.style.backgroundColor = "aquamarine"
+                    td.classList.add("grass")
                 }
                 // console.log(commits[iter].name)
                 // console.log(iter)
@@ -133,9 +139,9 @@ function refreshTable() {
     })
     commits.forEach(elem =>{
     if(elem.unit !== null){
-        document.getElementById(elem.id).innerHTML = elem.unit.name + "<br>"+ elem.unit.health + "<br>" + elem.unit.player.username + "<br>" + "<br>" + elem.id
+        document.getElementById(elem.id).innerHTML = elem.unit.name + "<br>"+ elem.unit.health + "<br>" + elem.id
     }else {
-        document.getElementById(elem.id).innerHTML = " . " + "<br>" + "<br>" + elem.id
+        document.getElementById(elem.id).innerHTML = " . " + "<br>" + elem.id
     }
     }
     )

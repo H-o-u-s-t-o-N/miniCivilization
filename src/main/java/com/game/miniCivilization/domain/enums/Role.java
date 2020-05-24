@@ -1,4 +1,4 @@
-package com.game.miniCivilization.domain;
+package com.game.miniCivilization.domain.enums;
 
 
 import org.springframework.security.core.GrantedAuthority;

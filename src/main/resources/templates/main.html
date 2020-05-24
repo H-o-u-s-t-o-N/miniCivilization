@@ -20,6 +20,7 @@
                 <input class="startButton" type="button" value="RefreshDB" onclick="getTiles(urlAllTile)">
                 <input class="startButton" type="button" value="RefreshTable" onclick="refreshTable()">
                 <input class="startButton" type="button" value="JSON" onclick="show()">
+                <input class="startButton" type="button" value="AP" onclick="restoreActionPoints()">
             </form>
 
             <form th:action="@{/logout}" method="post">
@@ -39,18 +40,18 @@
 <!--                <button type="submit" >Create Unit without js</button>-->
 <!--            </form>-->
             <br>
-<!--            <br>-->
-<!--            <form id="createArcherForm">-->
-<!--                <input type="number" name="idTile" placeholder="idTile">-->
-<!--                <button type="submit" id="createArcherButton" onclick="createArcher()">Create Archer</button>-->
-<!--            </form>-->
-<!--            <br>-->
-<!--            <br>-->
-<!--            <form id="createWarriorForm">-->
-<!--                <input type="number" name="idTile" placeholder="idTile">-->
-<!--                <button type="submit" id="createWarriorButton" onclick="createWarrior()">Create Warrior</button>-->
-<!--            </form>-->
-<!--            <br>-->
+            <br>
+            <form id="createArcherForm">
+                <input type="number" name="idTile" placeholder="idTile">
+                <button type="submit" id="createArcherButton" onclick="createArcher()">Create Archer</button>
+            </form>
+            <br>
+            <br>
+            <form id="createWarriorForm">
+                <input type="number" name="idTile" placeholder="idTile">
+                <button type="submit" id="createWarriorButton" onclick="createWarrior()">Create Warrior</button>
+            </form>
+            <br>
             <br>
             <form id="moveUnitForm">
                 <input type="number" name="idStart" placeholder="idStart">

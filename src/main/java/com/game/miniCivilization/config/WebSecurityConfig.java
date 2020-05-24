@@ -1,6 +1,6 @@
 package com.game.miniCivilization.config;
 
-import com.game.miniCivilization.domain.service.UserService;
+import com.game.miniCivilization.domain.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private UserService userService;
+    private PlayerService playerService;
 
 
     @Override
@@ -22,7 +22,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
 //                I must include this (csrf) in future
                 .authorizeRequests()
-                    .antMatchers("/registration","/static/**").permitAll()
+                    .antMatchers("/registration","/static/**","/tile","/unit").permitAll()
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()
@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService)
+        auth.userDetailsService(playerService)
                 .passwordEncoder(NoOpPasswordEncoder.getInstance());
     }
 }

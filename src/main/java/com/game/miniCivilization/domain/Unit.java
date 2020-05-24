@@ -2,71 +2,109 @@ package com.game.miniCivilization.domain;
 
 
 import javax.persistence.*;
-
 @Entity
-public class Unit {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public abstract class Unit {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    protected Long id;
 
     protected int cost;
     protected int health;
     protected int damage;
     protected String name;
-
+    protected int coordX;
+    protected int coordY;
+    protected int experience;
+    protected int radius;
+    protected boolean mustMoveAfterBattle;
+    protected int actionPoint;
+    protected int finalActionPoint;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    protected User player;
+    protected Player player;
 
     public Unit() {
-        this.damage = 50;
-        this.health = 100;
     }
+    public abstract void reName(String tile, String player);
 
-    public Unit(User player) {
-        this.player = player;
-        this.damage = 50;
-        this.health = 100;
-        this.name = "SuperUnit";
+    public void setCoordinats(Tile tile){
+        coordX = tile.getCoordX();
+        coordY = tile.getCoordY();
+    };
+
+    public Long getId() {
+        return id;
     }
 
     public int getCost() {
         return cost;
     }
 
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
-
     public int getHealth() {
         return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
     }
 
     public int getDamage() {
         return damage;
     }
 
-    public void setDamage(int damage) {
-        this.damage = damage;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = "Unit_"+name;
+    public int getCoordX() {
+        return coordX;
     }
 
-    public User getPlayer() {
+    public int getCoordY() {
+        return coordY;
+    }
+
+    public Player getPlayer() {
         return player;
     }
 
-    public void setPlayer(User player) {
-        this.player = player;
+    public int getExperience() {
+        return experience;
+    }
+
+    public int getRadius() {
+        return radius;
+    }
+
+    public boolean isMustMoveAfterBattle() {
+        return mustMoveAfterBattle;
+    }
+
+    public int getActionPoint() {
+        return actionPoint;
+    }
+
+    public int getFinalActionPoint() {
+        return finalActionPoint;
+    }
+
+
+    //    =======================================================
+
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public void setCoordX(int coordX) {
+        this.coordX = coordX;
+    }
+
+    public void setCoordY(int coordY) {
+        this.coordY = coordY;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
+
+    public void setActionPoint(int actionPoint) {
+        this.actionPoint = actionPoint;
     }
 }

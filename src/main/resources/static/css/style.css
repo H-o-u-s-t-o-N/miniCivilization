@@ -60,10 +60,17 @@ td {
     height: 75px;
     border: 1px solid grey;
     text-align: center;
+    color: aliceblue;
     /*background-color: black;*/
 }
 .startButton{
     font-size: 3em;
     align-items: center;
     margin-left: 100px;
+}
+.mountain{
+    background-image: url("../img/Mountain100.jpg");
+}
+.grass{
+    background-image: url("../img/Grass100.jpg");
 }

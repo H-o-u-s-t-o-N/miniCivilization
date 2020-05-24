@@ -1,5 +1,6 @@
 package com.game.miniCivilization.domain;
 
+import com.game.miniCivilization.domain.enums.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -8,8 +9,7 @@ import java.util.Collection;
 import java.util.Set;
 
 @Entity
-@Table(name = "usr")
-public class User implements UserDetails {
+public class Player implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
