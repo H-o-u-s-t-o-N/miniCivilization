@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>FindGame</title>
+</head>
+<body>
+
+<h1>Now you can find Game</h1>
+<br>
+<div>
+    <table>
+        <tr th:each="game : ${games}">
+            <td th:text="${game.getName()}"></td>
+            <td th:text="${game.getPlayerA().getUsername()}"></td>
+
+            <td><a th:href="@{http://localhost:8080/main}">Connect</a> </td>
+        </tr>
+    </table>
+
+</div>
+</body>
+</html>

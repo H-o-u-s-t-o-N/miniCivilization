@@ -1,19 +1,29 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
-    <title>Spring Security Example </title>
-</head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link th:href="@{/static/css/loginstyle.css}" rel="stylesheet" />
+    <link th:href="@{/static/css/font-awesome.css}" rel="stylesheet" />
 <body>
-<h1>Add New User</h1>
-<div th:if="${message}">
-    User Exists!
+<div class="container">
+    <img th:src="@{/static/img/man2.png}">
+    <div th:if="${message}">
+        <p th:text="${message}"/>
+    </div>
+    <form th:action="@{/registration}" method="post">
+        <div class="dws-input">
+            <input type="text" name="username" placeholder="Enter Login">
+        </div>
+        <div class="dws-input">
+            <input type="password" name="password" placeholder="Enter Password">
+        </div>
+        <input class="dws-submit" type="submit" name="submit" value="Registration"><br />
+        <a th:href="@{/login}">Login</a>
+    </form>
+    <div class="dws-social">
+        <i class="fa fa-twitter" aria-hidden="true"></i>
+        <i class="fa fa-facebook" aria-hidden="true"></i>
+        <i class="fa fa-google-plus-official" aria-hidden="true"></i>
+    </div>
 </div>
-<form th:action="@{/registration}" method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-<!--    <div><label> Name : <input type="text" name="name"/> </label></div>-->
-    <div><input type="submit" value="Registration"/></div>
-</form>
 </body>
-</html>

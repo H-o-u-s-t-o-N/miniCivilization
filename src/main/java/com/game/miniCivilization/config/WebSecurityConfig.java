@@ -22,7 +22,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
 //                I must include this (csrf) in future
                 .authorizeRequests()
-                    .antMatchers("/registration","/static/**","/tile","/unit").permitAll()
+                    .antMatchers(
+                            "/registration",
+                            "/static/**",
+                            "/",
+                            "/greeting",
+                            "/game/isCanMove"
+                                ).permitAll()
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()

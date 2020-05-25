@@ -16,6 +16,7 @@ public class Player implements UserDetails {
     private String username;
     private String password;
     private boolean active;
+    private boolean canMakeMove;
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
@@ -59,6 +60,14 @@ public class Player implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public boolean isCanMakeMove() {
+        return canMakeMove;
+    }
+
+    public void setCanMakeMove(boolean canMakeMove) {
+        this.canMakeMove = canMakeMove;
     }
 
     @Override

@@ -1,8 +1,10 @@
 package com.game.miniCivilization.config;
 
+import com.game.miniCivilization.domain.Game;
 import com.game.miniCivilization.domain.Player;
 import com.game.miniCivilization.domain.Tile;
 import com.game.miniCivilization.domain.Unit;
+import com.game.miniCivilization.repository.GameRepo;
 import com.game.miniCivilization.repository.TileRepo;
 import com.game.miniCivilization.repository.UnitRepo;
 import com.game.miniCivilization.repository.PlayerRepo;
@@ -15,6 +17,8 @@ import javax.annotation.PostConstruct;
 public class StartConfig {
     @Autowired
     private UnitRepo unitRepo;
+    @Autowired
+    private GameRepo gameRepo;
     @Autowired
     private PlayerRepo playerRepo;
 
@@ -55,7 +59,7 @@ public class StartConfig {
 
 
 //                Land
-                if((int)(Math.random()*10)==9){
+                if((int)(Math.random()*100)>=95){
                     tempTile.setLand("Mountain");
                 }else {
                     tempTile.setLand("Grass");
@@ -75,5 +79,20 @@ public class StartConfig {
         player.setPassword("w");
         player.setActive(true);
         playerRepo.save(player);
+
+        Player player2 = new Player();
+        player2.setUsername("q");
+        player2.setPassword("q");
+        player2.setActive(true);
+        playerRepo.save(player2);
+
+        Game game = new Game(player);
+        game.setName("First Game");
+        gameRepo.save(game);
+
+        Game game2 = new Game(player2);
+        game2.setName("Second Game");
+        gameRepo.save(game2);
+
     }
 }

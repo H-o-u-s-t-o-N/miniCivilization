@@ -1,6 +1,7 @@
 package com.game.miniCivilization.domain.service;
 
 import com.game.miniCivilization.domain.City;
+import com.game.miniCivilization.domain.Game;
 import com.game.miniCivilization.domain.Player;
 import com.game.miniCivilization.domain.Tile;
 import com.game.miniCivilization.domain.units.Archer;
@@ -13,13 +14,23 @@ public class CreateService {
     private final TileRepo tileRepo;
     private final CityRepo cityRepo;
     private final UnitRepo unitRepo;
+    private final GameRepo gameRepo;
+    private final PlayerRepo playerRepo;
 
-    public CreateService(TileRepo tileRepo, CityRepo cityRepo, UnitRepo unitRepo) {
+    public CreateService(TileRepo tileRepo, CityRepo cityRepo, UnitRepo unitRepo, GameRepo gameRepo, PlayerRepo playerRepo) {
         this.tileRepo = tileRepo;
         this.cityRepo = cityRepo;
         this.unitRepo = unitRepo;
+        this.gameRepo = gameRepo;
+        this.playerRepo = playerRepo;
     }
 
+    public void createGame(Player player){
+        Game game = new Game(player);
+        player.setCanMakeMove(true);
+        playerRepo.save(player);
+        gameRepo.save(game);
+    }
 
     public void creatCity(Long id){
         Tile tempTile = tileRepo.findById(id).get();
