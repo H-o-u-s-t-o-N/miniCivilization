@@ -37,7 +37,7 @@ public class PageControl {
             return "registration";
         }
         player.setActive(true);
-        player.setRoles(Collections.singleton(Role.ADMIN));
+//        player.setRoles(Collections.singleton(Role.ADMIN));
         playerRepo.save(player);
         return "redirect:/login";
     }

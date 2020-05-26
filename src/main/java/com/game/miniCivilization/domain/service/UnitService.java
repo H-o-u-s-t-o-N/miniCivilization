@@ -3,6 +3,8 @@ package com.game.miniCivilization.domain.service;
 import com.game.miniCivilization.domain.Player;
 import com.game.miniCivilization.domain.Tile;
 import com.game.miniCivilization.domain.Unit;
+import com.game.miniCivilization.domain.units.*;
+import com.game.miniCivilization.repository.PlayerRepo;
 import com.game.miniCivilization.repository.TileRepo;
 import com.game.miniCivilization.repository.UnitRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ public class UnitService {
     private UnitRepo unitRepo;
     @Autowired
     private TileRepo tileRepo;
+    @Autowired
+    private PlayerRepo playerRepo;
 
 
     public void moveUnit(Long tileIdStart, Long tileIdEnd, Player player){
@@ -25,7 +29,7 @@ public class UnitService {
         Unit tempUnitA = tileStart.getUnit();
         Unit tempUnitB = tileEnd.getUnit();
         if(tempUnitA != null) {
-            if (tempUnitA.getPlayer() == player) {
+            if (checkPlayer(tempUnitA,player)) {
                 if (canMove(tempUnitA, tileEnd)) {
 //                    ActionPoint to go
                     if (tempUnitB != null) {
@@ -36,15 +40,20 @@ public class UnitService {
                                     tileStart.setUnit(null);
 
                                     setActionPointAfterMove(tempUnitA, tileEnd);
+                                    tempUnitA.setActionPoint(tempUnitA.getActionPoint() - 1);
                                     tempUnitA.setExperience(tempUnitA.getExperience() + 1);
                                     tempUnitA.setCoordinats(tileEnd);
 
                                     unitRepo.delete(tempUnitB);
                                     unitRepo.save(tempUnitA);
                                     tileRepo.saveAll(asList(tileEnd, tileStart));
+                                    if(checkExperience(tempUnitA)){
+                                        levelUp(tileEnd);
+                                    }
                                 } else {
 //                                    only for archers
                                     tempUnitA.setActionPoint(tempUnitA.getActionPoint() - 1);
+                                    tempUnitA.setExperience(tempUnitA.getExperience() + 1);
                                     tileEnd.setUnit(null);
 
                                     unitRepo.delete(tempUnitB);
@@ -78,7 +87,9 @@ public class UnitService {
                         tileStart.setUnit(null);
 
                         tempUnitA.setCoordinats(tileEnd);
+
                         setActionPointAfterMove(tempUnitA, tileEnd);
+
                         unitRepo.save(tempUnitA);
                         tileRepo.saveAll(asList(tileEnd, tileStart));
                     }
@@ -93,6 +104,9 @@ public class UnitService {
 
                         unitRepo.delete(tempUnitB);
                         unitRepo.save(tempUnitA);
+                        if(checkExperience(tempUnitA)){
+                            levelUp(tileStart);
+                        }
                     } else {
                         tempUnitB.setHealth(tempUnitB.getHealth() - tempUnitA.getDamage());
 
@@ -153,7 +167,42 @@ public class UnitService {
         int z = Math.max(x,y);
         unit.setActionPoint(unit.getActionPoint() - z);
     }
-    private void checkExperience(){
+
+    private boolean checkExperience(Unit unit){
+        if(unit.getExperience() == 3){
+            return true;
+        }else
+            return false;
+    }
+
+    private boolean checkPlayer(Unit unit, Player player){
+        Player playerA = playerRepo.findByUsername(unit.getPlayer().getUsername());
+        Player playerB = playerRepo.findByUsername(player.getUsername());
+        return playerA.getUsername().equals(playerB.getUsername());
+    }
+    
+    private void levelUp(Tile tile){
+        Unit tempUnit = tile.getUnit();
+        if(tempUnit.getClass() == Archer.class){
+            ArcherVeteran veteran = new ArcherVeteran(tempUnit.getPlayer());
+            veteran.setCoordinats(tile);
+            veteran.reName(tile.getName(), tempUnit.getPlayer().getUsername());
+            tile.setUnit(veteran);
+            unitRepo.save(veteran);
+            unitRepo.delete(tempUnit);
+            tileRepo.save(tile);
+        }
+        if(tempUnit.getClass() == Warrior.class){
+            WarriorVeteran veteran = new WarriorVeteran(tempUnit.getPlayer());
+            veteran.setCoordinats(tile);
+            veteran.reName(tile.getName(), tempUnit.getPlayer().getUsername());
+            tile.setUnit(veteran);
+            unitRepo.save(veteran);
+            unitRepo.delete(tempUnit);
+            tileRepo.save(tile);
+        }
+        if(tempUnit.getClass() == Colonist.class){
+        }
 
     }
 }
