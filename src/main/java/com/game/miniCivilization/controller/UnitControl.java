@@ -28,6 +28,12 @@ public class UnitControl {
 //    public Unit findUnit(@PathVariable Long id){
 //        return mainService.findUnit(id);
 //    }
+    @PostMapping("/createCity")
+    public void createCity(
+            @AuthenticationPrincipal Player player,
+            @RequestParam(value = "idTile") Long tileId){
+        createService.creatCity(tileId, player);
+    }
 
     @PostMapping("/createArcher")
     public void createArcher(
@@ -45,8 +51,9 @@ public class UnitControl {
 
     @PostMapping("/moveUnit")
     public void moveUnit(
+            @AuthenticationPrincipal Player player,
             @RequestParam(value = "idStart") @NonNull Long tileIdStart,
             @RequestParam(value = "idEnd") @NonNull Long tileIdEnd){
-        unitService.moveUnit(tileIdStart,tileIdEnd);
+        unitService.moveUnit(tileIdStart,tileIdEnd, player);
     }
 }

@@ -1,6 +1,5 @@
 console.log("it's working")
-let SIDE = 16;
-let iter = 0;
+
 let commits
 let urlAllTile = 'http://localhost:8080/tile'
 let urlCreateUnit = 'http://localhost:8080/tile/createUnit'
@@ -8,6 +7,23 @@ let urlCreateArcher = 'http://localhost:8080/unit/createArcher'
 let urlCreateWarrior = 'http://localhost:8080/unit/createWarrior'
 let urlMoveUnit = 'http://localhost:8080/unit/moveUnit'
 let urlRestoreActionPoints = 'http://localhost:8080/game'
+
+function createState(onUpdate) {
+    return function updateState(callback) {
+        const state = {
+            commits: []
+        }
+
+        onUpdate(callback(state))
+    }
+}
+
+const updateState = createState(render)
+
+
+function render(state) {
+    document.createElement("div")
+}
 
 
 window.onload = async function main() {
@@ -86,7 +102,10 @@ function show() {
 function rememberTile() {
 }
 
-function createTable() {
+function createTable(commits) {
+    let SIDE = 16;
+    let iter = 0;
+
     // document.getElementById("#start").style.display = "none";
     commits.sort(function (a,b) {
         return a.id-b.id
@@ -94,6 +113,7 @@ function createTable() {
 
     let element = document.querySelector('#table');
     let table = document.createElement("table")
+
     for (let i = 0; i < SIDE; i++) {
         let tr = document.createElement("tr");
 
@@ -102,7 +122,7 @@ function createTable() {
             let td = document.createElement("td");
 
                 td.setAttribute("id", commits[iter].id)
-                td.addEventListener('click',rememberTile)
+                // td.addEventListener('click',rememberTile)
 
                 if(commits[iter].unit !== null){
                     td.innerHTML = commits[iter].unit.name
@@ -146,6 +166,10 @@ function refreshTable() {
     }
     )
 }
+
+
+
+
 
 
 

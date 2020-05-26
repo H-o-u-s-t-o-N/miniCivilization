@@ -1,10 +1,8 @@
 package com.game.miniCivilization.domain.service;
 
-import com.game.miniCivilization.domain.City;
-import com.game.miniCivilization.domain.Game;
-import com.game.miniCivilization.domain.Player;
-import com.game.miniCivilization.domain.Tile;
+import com.game.miniCivilization.domain.*;
 import com.game.miniCivilization.domain.units.Archer;
+import com.game.miniCivilization.domain.units.Colonist;
 import com.game.miniCivilization.domain.units.Warrior;
 import com.game.miniCivilization.repository.*;
 import org.springframework.stereotype.Service;
@@ -32,13 +30,29 @@ public class CreateService {
         gameRepo.save(game);
     }
 
-    public void creatCity(Long id){
+    public void creatCity(Long id, Player player){
         Tile tempTile = tileRepo.findById(id).get();
-        City tempCity = new City();
-        tempCity.setName(tempTile.getName());
-        cityRepo.save(tempCity);
-        tempTile.setCity(tempCity);
-        tileRepo.save(tempTile);
+        Unit tempUnit = tempTile.getUnit();
+        if(tempUnit.getClass() == Colonist.class) {
+            City tempCity = new City(player);
+            tempCity.setName(player.getUsername());
+            cityRepo.save(tempCity);
+            tempTile.setUnit(null);
+            tempTile.setCity(tempCity);
+            unitRepo.delete(tempUnit);
+            tileRepo.save(tempTile);
+        }
+    }
+
+    public void creatColonist(Long id, Player player) {
+        Tile tile = tileRepo.findById(id).get();
+        Colonist colonist = new Colonist(player);
+        colonist.setCoordX(tile.getCoordX());
+        colonist.setCoordY(tile.getCoordY());
+        colonist.reName(tile.getName(), player.getUsername());
+        unitRepo.save(colonist);
+        tile.setUnit(colonist);
+        tileRepo.save(tile);
     }
 
     public void creatArcher(Long id, Player player) {
