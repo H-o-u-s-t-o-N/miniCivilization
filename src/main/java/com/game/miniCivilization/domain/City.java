@@ -1,29 +1,44 @@
 package com.game.miniCivilization.domain;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+
+import javax.persistence.*;
 
 
 @Entity
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-@Data
-@NoArgsConstructor
 public class City {
     @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
+    @ManyToOne(fetch = FetchType.EAGER)
+    protected Player player;
 
-    public void setId(long id) {
-        this.id = id;
+    public City() {
     }
 
+    public City(Player player) {
+        this.player = player;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+//    ====================================================================
+
+
     public void setName(String name) {
-        this.name = "City_" + name;
+        this.name = "City " + name;
     }
 }

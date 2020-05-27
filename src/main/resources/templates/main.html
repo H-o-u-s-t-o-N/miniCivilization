@@ -3,8 +3,8 @@
 <head>
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link th:href="@{/css/style.css}" rel="stylesheet" />
-    <script type="text/javascript" th:src="@{/js/script.js}"></script>
+    <link th:href="@{/static/css/style.css}" rel="stylesheet" />
+    <script type="text/javascript" th:src="@{/static/js/script.js}"></script>
 
 </head>
 <body>
@@ -17,15 +17,42 @@
         <div class="start">
             <form>
 <!--                <input class="startButton" type="button" value="Create" onclick="createTable()">-->
-                <input class="startButton" type="button" value="RefreshDB" onclick="getTiles(urlAllTile)">
+                <input class="startButton" type="button" value="RefreshDB" onclick="getCommits(urlAllTile)">
                 <input class="startButton" type="button" value="RefreshTable" onclick="refreshTable()">
+                <input class="startButton" type="button" value="JSON" onclick="show()">
+                <input class="startButton" type="button" value="AP" onclick="restoreActionPoints()">
             </form>
+
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Sign Out"/>
+            </form>
+
         </div>
         <div class="interface">
-            <form id="creatUnitForm">
+            <br>
+            <br>
+            <form id="createUnitForm">
                 <input type="number" name="idTile" placeholder="idTile">
                 <button type="submit" id="createUnitButton" onclick="createUnit()">Create Unit</button>
             </form>
+<!--            <form method="post" action="http://localhost:8080/tile/createUnit">-->
+<!--                <input type="number" name="idTile" placeholder="idTile">-->
+<!--                <button type="submit" >Create Unit without js</button>-->
+<!--            </form>-->
+            <br>
+            <br>
+            <form id="createArcherForm">
+                <input type="number" name="idTile" placeholder="idTile">
+                <button type="submit" id="createArcherButton" onclick="createArcher()">Create Archer</button>
+            </form>
+            <br>
+            <br>
+            <form id="createWarriorForm">
+                <input type="number" name="idTile" placeholder="idTile">
+                <button type="submit" id="createWarriorButton" onclick="createWarrior()">Create Warrior</button>
+            </form>
+            <br>
+            <br>
             <form id="moveUnitForm">
                 <input type="number" name="idStart" placeholder="idStart">
                 <input type="number" name="idEnd" placeholder="idEnd">
