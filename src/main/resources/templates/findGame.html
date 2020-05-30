@@ -3,21 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>FindGame</title>
+    <link th:href="@{/static/css/findStyle.css}" rel="stylesheet" />
+    <link th:href="@{/static/css/font-awesome.css}" rel="stylesheet" />
 </head>
 <body>
 
-<h1>Now you can find Game</h1>
-<br>
-<div>
-    <table>
-        <tr th:each="game : ${games}">
-            <td th:text="${game.getName()}"></td>
-            <td th:text="${game.getPlayerA().getUsername()}"></td>
+<div class="container">
+    <img th:src="@{/static/img/world.png}">
+    <div class="title1">Choose Game</div>
+    <div class="table">
+        <div class="header">
+            <div class="row head_row">
+                <div class="cell name">Game name</div>
+                <div class="cell player">Created by</div>
+                <div class="cell button"></div>
+            </div>
 
-            <td><a th:href="@{http://localhost:8080/main}">Connect</a> </td>
-        </tr>
-    </table>
-
+        </div>
+        <div class="row" th:each="game : ${games}">
+            <div class="cell name"  th:text="${game.getName()}"></div>
+            <div class="cell player" th:text="${game.getPlayerA().getUsername()}"></div>
+            <div class="cell button">
+                <form th:action="@{/connectGame}" method="post">
+                    <input type="hidden" name="gameId" th:value="${game.getId()}">
+                <input class="dws-submit" type="submit" value="Connect"><br />
+            </form></div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

@@ -3,7 +3,7 @@ package com.game.miniCivilization.config;
 import com.game.miniCivilization.domain.Game;
 import com.game.miniCivilization.domain.Player;
 import com.game.miniCivilization.domain.Tile;
-import com.game.miniCivilization.domain.Unit;
+import com.game.miniCivilization.domain.enums.Land;
 import com.game.miniCivilization.repository.GameRepo;
 import com.game.miniCivilization.repository.TileRepo;
 import com.game.miniCivilization.repository.UnitRepo;
@@ -15,8 +15,6 @@ import javax.annotation.PostConstruct;
 
 @Configuration
 public class StartConfig {
-    @Autowired
-    private UnitRepo unitRepo;
     @Autowired
     private GameRepo gameRepo;
     @Autowired
@@ -33,10 +31,6 @@ public class StartConfig {
         int SIDE = 16;
         Long iter = 0L;
         Tile tempTile;
-//        City tempCity;
-        Unit tempUnit;
-
-//        tempUnit = new Unit();
         for (int i = 0; i < SIDE; i++) {
             for (int j = 0; j < SIDE; j++) {
                 tempTile = new Tile();
@@ -45,35 +39,22 @@ public class StartConfig {
                 tempTile.setCoordY(i);
                 tempTile.setName(iter+"");
 
-
-
-//                if(iter == 5 || iter == 1 || iter == 3){
-//                    tempUnit = new ArcherVeteran();
-////                    tempUnit.reName(i+"_"+j);
-//                    unitRepo.save(tempUnit);
-//                    tempTile.setUnit(tempUnit);
-//                    System.out.println("ppp");
-//                }else{
-//                    tempTile.setUnit(null);
-//                }
-
-
 //                Land
-                if((int)(Math.random()*100)>=95){
-                    tempTile.setLand("Mountain");
+                int x = (int)(Math.random()*100);
+                if(x >= 95){
+                    tempTile.setLand(Land.Mountain);
+                }else if(x <=20){
+                    tempTile.setLand(Land.Desert);
                 }else {
-                    tempTile.setLand("Grass");
+                    tempTile.setLand(Land.Grass);
                 }
-
-
-
-
-
 
                 tileRepo.save(tempTile);
                 iter++;
             }
         }
+
+
         Player player = new Player();
         player.setUsername("w");
         player.setPassword("w");
@@ -88,10 +69,12 @@ public class StartConfig {
 
         Game game = new Game(player);
         game.setName("First Game");
+        game.setStartMoney();
         gameRepo.save(game);
 
         Game game2 = new Game(player2);
         game2.setName("Second Game");
+        game2.setStartMoney();
         gameRepo.save(game2);
 
     }

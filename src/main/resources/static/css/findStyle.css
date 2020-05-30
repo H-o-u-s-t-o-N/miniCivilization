@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+
+body{
+    height: 900px;
+    background-image: url("/static/img/bg.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+a{
+    color: #fff;
+}
+a:hover{
+    text-decoration: none;
+}
+
+.title1{
+    margin-bottom: 30px;
+    font-size: 50px;
+    color: aliceblue;
+}
+.container{
+    width:600px;
+    background-color: rgba(24, 33, 52, 0.7);
+    margin: 175px auto 0 auto;
+    text-align: center;
+    box-shadow: 0 -5px 0 #3adbfd;
+    padding-bottom: 20px;
+    font-family: 'Audiowide', cursive;
+}
+.container img{
+    width:120px;
+    height:120px;
+    margin: -60px 0 30px 0;
+    border: 5px solid #1a394f;
+    border-radius: 50%;
+    box-shadow: 0 -5px 0 #3adbfd;
+}
+.dws-submit {
+    padding: 13px 30px;
+    margin: 5px 0 20px 0;
+    font-family: 'Audiowide', cursive;
+    font-size: 15px;
+    color: #fff;
+    background-color: #2ca8c6;
+    border: none;
+    border-bottom: 4px solid #6ee9fd;
+    cursor: pointer;
+}
+.dws-submit:hover{
+    transition: all 0.5s;
+    background: #fff;
+    color: #2c536c;
+}
+.table{
+    display: table;
+    border-collapse: collapse;
+}
+.caption{
+    display: table-caption;
+    text-align: center;
+    width: 600px;
+}
+
+.header{
+    display: table-header-group;
+
+}
+.row{
+    display: table-row;
+    font-size: 20px;
+    color: aliceblue;
+}
+.head_row{
+    font-size: 16px;
+    color: black;
+}
+.cell{
+    display: table-cell;
+}
+.name{
+    width: 275px;
+}
+.player{
+    width: 175px;
+}
+.button{
+
+}
+
+
+

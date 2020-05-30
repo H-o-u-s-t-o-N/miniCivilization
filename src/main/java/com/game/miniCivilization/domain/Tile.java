@@ -1,12 +1,10 @@
 package com.game.miniCivilization.domain;
 
+import com.game.miniCivilization.domain.enums.Land;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
@@ -19,8 +17,8 @@ public class Tile {
     private City city;
     @OneToOne(fetch = FetchType.EAGER)
     public Unit unit;
-
-    private String land;
+    @Enumerated(EnumType.STRING)
+    private Land land;
     private String name;
 
     public Tile() {
@@ -58,12 +56,12 @@ public class Tile {
         this.coordY = coordY;
     }
 
-    public void setLand(String land) {
-        this.land = land;
+    public Land getLand() {
+        return land;
     }
 
-    public String getLand() {
-        return land;
+    public void setLand(Land land) {
+        this.land = land;
     }
 
     public City getCity() {

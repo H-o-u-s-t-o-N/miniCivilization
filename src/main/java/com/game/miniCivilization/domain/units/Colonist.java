@@ -3,6 +3,7 @@ package com.game.miniCivilization.domain.units;
 
 import com.game.miniCivilization.domain.Player;
 import com.game.miniCivilization.domain.Unit;
+import com.game.miniCivilization.domain.enums.Type;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 
@@ -24,10 +25,11 @@ public class Colonist extends Unit {
         this.mustMoveAfterBattle = false;
         this.actionPoint = 0;
         this.finalActionPoint = 3;
+        this.type = Type.Colonist;
     }
 
     @Override
-    public void reName(String tile, String player) {
-
+    public void reName(String player) {
+        this.name = "Colonist " + player;
     }
 }

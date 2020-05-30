@@ -1,6 +1,6 @@
 package com.game.miniCivilization.config;
 
-import com.game.miniCivilization.domain.service.PlayerService;
+import com.game.miniCivilization.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -25,6 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(
                             "/registration",
                             "/static/**",
+                            "/webjars/**",
                             "/",
                             "/greeting",
                             "/game/isCanMove"

@@ -1,4 +1,4 @@
-package com.game.miniCivilization.domain.service;
+package com.game.miniCivilization.service;
 
 import com.game.miniCivilization.domain.Player;
 import com.game.miniCivilization.domain.Tile;
@@ -95,24 +95,26 @@ public class UnitService {
                     }
                 }
 //                archer
-                if (canFight(tempUnitA, tempUnitB)) {
-                    if (canKill(tempUnitA, tempUnitB)) {
-                        tileEnd.setUnit(null);
+                if (tempUnitB != null) {
+                    if (canFight(tempUnitA, tempUnitB)) {
+                        if (canKill(tempUnitA, tempUnitB)) {
+                            tileEnd.setUnit(null);
 
-                        tempUnitA.setActionPoint(tempUnitA.getActionPoint() - 1);
-                        tempUnitA.setExperience(tempUnitA.getExperience() + 1);
+                            tempUnitA.setActionPoint(tempUnitA.getActionPoint() - 1);
+                            tempUnitA.setExperience(tempUnitA.getExperience() + 1);
 
-                        unitRepo.delete(tempUnitB);
-                        unitRepo.save(tempUnitA);
-                        if(checkExperience(tempUnitA)){
-                            levelUp(tileStart);
+                            unitRepo.delete(tempUnitB);
+                            unitRepo.save(tempUnitA);
+                            if (checkExperience(tempUnitA)) {
+                                levelUp(tileStart);
+                            }
+                        } else {
+                            tempUnitB.setHealth(tempUnitB.getHealth() - tempUnitA.getDamage());
+
+                            tempUnitA.setActionPoint(tempUnitA.getActionPoint() - 1);
+
+                            unitRepo.saveAll(asList(tempUnitA, tempUnitB));
                         }
-                    } else {
-                        tempUnitB.setHealth(tempUnitB.getHealth() - tempUnitA.getDamage());
-
-                        tempUnitA.setActionPoint(tempUnitA.getActionPoint() - 1);
-
-                        unitRepo.saveAll(asList(tempUnitA, tempUnitB));
                     }
                 }
             }
@@ -169,16 +171,11 @@ public class UnitService {
     }
 
     private boolean checkExperience(Unit unit){
-        if(unit.getExperience() == 3){
-            return true;
-        }else
-            return false;
+        return unit.getExperience() >= 3;
     }
 
     private boolean checkPlayer(Unit unit, Player player){
-        Player playerA = playerRepo.findByUsername(unit.getPlayer().getUsername());
-        Player playerB = playerRepo.findByUsername(player.getUsername());
-        return playerA.getUsername().equals(playerB.getUsername());
+        return unit.getPlayer().getUsername().equals(player.getUsername());
     }
     
     private void levelUp(Tile tile){
@@ -186,7 +183,7 @@ public class UnitService {
         if(tempUnit.getClass() == Archer.class){
             ArcherVeteran veteran = new ArcherVeteran(tempUnit.getPlayer());
             veteran.setCoordinats(tile);
-            veteran.reName(tile.getName(), tempUnit.getPlayer().getUsername());
+            veteran.reName(tempUnit.getPlayer().getUsername());
             tile.setUnit(veteran);
             unitRepo.save(veteran);
             unitRepo.delete(tempUnit);
@@ -195,7 +192,7 @@ public class UnitService {
         if(tempUnit.getClass() == Warrior.class){
             WarriorVeteran veteran = new WarriorVeteran(tempUnit.getPlayer());
             veteran.setCoordinats(tile);
-            veteran.reName(tile.getName(), tempUnit.getPlayer().getUsername());
+            veteran.reName(tempUnit.getPlayer().getUsername());
             tile.setUnit(veteran);
             unitRepo.save(veteran);
             unitRepo.delete(tempUnit);

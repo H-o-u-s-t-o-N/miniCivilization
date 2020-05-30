@@ -61,6 +61,11 @@ public class Game {
         this.name = name;
     }
 
+    public void setStartMoney() {
+        this.moneyA = 1000L;
+        this.moneyB = 1000L;
+    }
+
     public void setMoneyA(Long moneyA) {
         this.moneyA = moneyA;
     }

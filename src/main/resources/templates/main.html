@@ -4,65 +4,85 @@
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link th:href="@{/static/css/style.css}" rel="stylesheet" />
+<!--    <script type="text/javascript" th:src="@{/static/js/lib/sockjs.js}"></script>-->
+<!--    <script type="text/javascript" th:src="@{/static/js/lib/stomp.js}"></script>-->
+<!--    <script type="text/javascript" th:src="@{/static/js/app.js}"></script>-->
     <script type="text/javascript" th:src="@{/static/js/script.js}"></script>
 
 </head>
 <body>
 <div class="content">
     <div class="body">
-        <div class="hello">
-<!--            <p th:text="'Hello, ' + ${name} + '!'" />-->
-            <h1>miniCivilization</h1>
-        </div>
-        <div class="start">
-            <form>
-<!--                <input class="startButton" type="button" value="Create" onclick="createTable()">-->
-                <input class="startButton" type="button" value="RefreshDB" onclick="getCommits(urlAllTile)">
-                <input class="startButton" type="button" value="RefreshTable" onclick="refreshTable()">
-                <input class="startButton" type="button" value="JSON" onclick="show()">
-                <input class="startButton" type="button" value="AP" onclick="restoreActionPoints()">
-            </form>
+        <div class="container">
+                <img id="imgMove"  onclick="finishTurn()" th:src="@{/static/img/move.png}">
+                <img id="imgLock"  th:src="@{/static/img/lock.png}">
+            <input id="username" type="hidden" th:value="${player.getUsername()}" />
+                <div class="title1">miniCivilization</div>
+            <div class="start">
+                <form>
 
-            <form th:action="@{/logout}" method="post">
-                <input type="submit" value="Sign Out"/>
-            </form>
+<!--                    <input class="dws-submit" type="button" value="RefreshDB" onclick="getCommits(urlAllTile)">-->
+                    <input class="dws-submit" type="button" id="Reload" value="Reload">
+<!--                    <input class="dws-submit" type="button" value="AP" onclick="restoreActionPoints()">-->
+                </form>
 
-        </div>
-        <div class="interface">
-            <br>
-            <br>
-            <form id="createUnitForm">
-                <input type="number" name="idTile" placeholder="idTile">
-                <button type="submit" id="createUnitButton" onclick="createUnit()">Create Unit</button>
-            </form>
-<!--            <form method="post" action="http://localhost:8080/tile/createUnit">-->
-<!--                <input type="number" name="idTile" placeholder="idTile">-->
-<!--                <button type="submit" >Create Unit without js</button>-->
-<!--            </form>-->
-            <br>
-            <br>
-            <form id="createArcherForm">
-                <input type="number" name="idTile" placeholder="idTile">
-                <button type="submit" id="createArcherButton" onclick="createArcher()">Create Archer</button>
-            </form>
-            <br>
-            <br>
-            <form id="createWarriorForm">
-                <input type="number" name="idTile" placeholder="idTile">
-                <button type="submit" id="createWarriorButton" onclick="createWarrior()">Create Warrior</button>
-            </form>
-            <br>
-            <br>
-            <form id="moveUnitForm">
-                <input type="number" name="idStart" placeholder="idStart">
-                <input type="number" name="idEnd" placeholder="idEnd">
-                <button type="submit" onclick="moveUnit()">Move</button>
-            </form>
-        </div>
-        <div id="table">
+                <form th:action="@{/logout}" method="post">
+                    <input class="dws-submit" type="submit" value="Sign Out"/>
+                </form>
 
+            </div>
+<!--                                                                                                                                                            <div>-->
+<!--                                                                                                                                                                <div>-->
+<!--                                                                                                                                                                    <button id="connect" onclick="connectinnnng();">Connect</button>-->
+<!--                                                                                                                                                                    <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>-->
+<!--                                                                                                                                                                </div>-->
+<!--                                                                                                                                                                <div id="conversationDiv">-->
+<!--                                                                                                                                                                    <label>What is your name?</label><input type="text" id="name" />-->
+<!--                                                                                                                                                                    <button id="sendName" onclick="sendName();">Send</button>-->
+<!--                                                                                                                                                                    <button id="sendArch" onclick="sendArcher();">SendArcher</button>-->
+<!--                                                                                                                                                                    <p id="response"></p>-->
+<!--                                                                                                                                                                </div>-->
+<!--                                                                                                                                                            </div>-->
+            <div class="interface">
+                <div class="createArcherForm">
+                    <form id="createArcherForm">
+                        <input type="hidden" class="idTileA" name="idTile" placeholder="idTile">
+                        <button type="submit" class="dws-submit" onclick="createArcher()">Create Archer</button>
+                    </form>
+                </div>
+                <div class="createWarriorForm">
+                    <form id="createWarriorForm">
+                        <input type="hidden" class="idTileA" name="idTile" placeholder="idTile">
+                        <button type="submit" class="dws-submit" onclick="createWarrior()">Create Warrior</button>
+                    </form>
+                </div>
+                <div class="createCityForm">
+                    <form id="createCityForm">
+                        <input type="hidden" class="idTileA" name="idTile" placeholder="idTile">
+                        <button type="submit" class="dws-submit"  onclick="createCity()">Create City</button>
+                    </form>
+                </div>
+                <div class="createColonistForm">
+                    <form id="createColonistForm">
+                        <input type="hidden" class="idTileA" name="idTile" placeholder="idTile">
+                        <button type="submit" class="dws-submit"  onclick="createColonist()">Create Colonist</button>
+                    </form>
+                </div>
+                <div class="moveUnitForm">
+                    <form id="moveUnitForm">
+                        <input type="hidden" class="idTileA" id="idTileA" name="idStart" placeholder="idStart">
+                        <input type="hidden" class="idTileB" id="idTileB" name="idEnd" placeholder="idEnd">
+                        <button type="button" class="dws-submit" onclick="firstClickOnMove()">Move</button>
+                        <button type="submit" class="dws-submit" onclick="moveUnit()">Confirm</button>
+                    </form>
+                </div>
+            </div>
         </div>
+        <div class="containerTable">
+            <div id="tableContainer">
 
+            </div>
+        </div>
     </div>
 </div>
 </body>

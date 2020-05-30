@@ -1,7 +1,10 @@
 package com.game.miniCivilization.domain;
 
 
+import com.game.miniCivilization.domain.enums.Type;
+
 import javax.persistence.*;
+
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Unit {
@@ -22,10 +25,12 @@ public abstract class Unit {
     protected int finalActionPoint;
     @ManyToOne(fetch = FetchType.EAGER)
     protected Player player;
+    @Enumerated(EnumType.STRING)
+    protected Type type;
 
     public Unit() {
     }
-    public abstract void reName(String tile, String player);
+    public abstract void reName(String player);
 
     public void setCoordinats(Tile tile){
         coordX = tile.getCoordX();
@@ -82,6 +87,10 @@ public abstract class Unit {
 
     public int getFinalActionPoint() {
         return finalActionPoint;
+    }
+
+    public Type getType() {
+        return type;
     }
 
 

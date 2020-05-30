@@ -1,8 +1,10 @@
 package com.game.miniCivilization.controller;
 
 import com.game.miniCivilization.domain.Player;
-import com.game.miniCivilization.domain.service.CreateService;
-import com.game.miniCivilization.domain.service.UnitService;
+import com.game.miniCivilization.domain.Tile;
+import com.game.miniCivilization.repository.TileRepo;
+import com.game.miniCivilization.service.CreateService;
+import com.game.miniCivilization.service.UnitService;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,38 +17,47 @@ public class UnitControl {
     private CreateService createService;
     @Autowired
     private UnitService unitService;
-//    @Autowired
-//    private MainService mainService;
-//
-//    @GetMapping
-//    public Iterable<Archer> findArchers(){
-//        return mainService.findAllUnits();
-//    }
-//
-//
-//    @GetMapping("/{id}")
-//    public Unit findUnit(@PathVariable Long id){
-//        return mainService.findUnit(id);
-//    }
+    private TileRepo tileRepo;
+
+
     @PostMapping("/createCity")
     public void createCity(
             @AuthenticationPrincipal Player player,
             @RequestParam(value = "idTile") Long tileId){
-        createService.creatCity(tileId, player);
+        createService.createCity(tileId, player);
+    }
+
+    @PostMapping("/createColonist")
+    public void createColonist(
+            @AuthenticationPrincipal Player player,
+            @RequestParam(value = "idTile") Long tileId){
+        Tile tile = tileRepo.findById(tileId).get();
+        if(tile.getCity() != null){
+            if(tile.getCity().getPlayer().getUsername().equals(player.getUsername()))
+                createService.createColonist(tileId, player);
+        }
     }
 
     @PostMapping("/createArcher")
     public void createArcher(
             @AuthenticationPrincipal Player player,
             @RequestParam(value = "idTile") Long tileId){
-        createService.creatArcher(tileId, player);
+        Tile tile = tileRepo.findById(tileId).get();
+        if(tile.getCity() != null) {
+            if (tile.getCity().getPlayer().getUsername().equals(player.getUsername()))
+                createService.createArcher(tileId, player);
+        }
     }
 
     @PostMapping("/createWarrior")
     public void createWarrior(
             @AuthenticationPrincipal Player player,
             @RequestParam(value = "idTile") Long tileId){
-        createService.creatWarrior(tileId, player);
+        Tile tile = tileRepo.findById(tileId).get();
+        if(tile.getCity() != null){
+            if(tile.getCity().getPlayer().getUsername().equals(player.getUsername()))
+                createService.createWarrior(tileId, player);
+        }
     }
 
     @PostMapping("/moveUnit")
