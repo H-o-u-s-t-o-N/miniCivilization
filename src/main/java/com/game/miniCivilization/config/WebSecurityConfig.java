@@ -25,10 +25,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(
                             "/registration",
                             "/static/**",
-                            "/webjars/**",
                             "/",
-                            "/greeting",
-                            "/game/isCanMove"
+                            "/greeting"
                                 ).permitAll()
                     .anyRequest().authenticated()
                     .and()

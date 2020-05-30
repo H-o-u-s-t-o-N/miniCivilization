@@ -304,7 +304,7 @@ function restoreActionPoints() {
 }
 
 function createCity() {
-    if(isClickMove) {
+
         let form = new FormData(document.getElementById("createCityForm"));
 
         if (form.values() !== null) {
@@ -314,11 +314,11 @@ function createCity() {
                 body: form
             });
         }
-    }
+
 }
 
 function createColonist() {
-    if(isClickMove) {
+
         let form = new FormData(document.getElementById("createColonistForm"));
         if (form.values() !== null) {
             fetch(urlCreateColonist, {
@@ -327,11 +327,11 @@ function createColonist() {
                 body: form
             });
         }
-    }
+
 }
 
 function createArcher() {
-    if(isClickMove) {
+
         const form = new FormData(document.getElementById("createArcherForm"));
 
         if (form.values() !== null) {
@@ -341,11 +341,11 @@ function createArcher() {
                 body: form
             });
         }
-    }
+
 }
 
 function createWarrior() {
-    if(isClickMove) {
+
         let form = new FormData(document.getElementById("createWarriorForm"));
 
         if (form.values() !== null) {
@@ -355,11 +355,11 @@ function createWarrior() {
                 body: form
             });
         }
-    }
+
 }
 
 function moveUnit() {
-    if(isClickMove) {
+
         let form = new FormData(document.getElementById("moveUnitForm"));
 
         if (form.values() !== null) {
@@ -369,7 +369,7 @@ function moveUnit() {
                 body: form
             });
         }
-    }
+
 }
 
 function finishTurn(){

@@ -4,10 +4,9 @@ import com.game.miniCivilization.domain.Player;
 import com.game.miniCivilization.domain.Tile;
 import com.game.miniCivilization.domain.Unit;
 import com.game.miniCivilization.repository.PlayerRepo;
-import com.game.miniCivilization.repository.UnitRepo;
-import com.game.miniCivilization.service.CreateService;
-import com.game.miniCivilization.service.GameService;
 import com.game.miniCivilization.repository.TileRepo;
+import com.game.miniCivilization.repository.UnitRepo;
+import com.game.miniCivilization.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class GameControl {
     @Autowired
     private GameService gameService;
-    @Autowired
-    private CreateService createService;
     @Autowired
     private TileRepo tileRepo;
     @Autowired

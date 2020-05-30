@@ -5,9 +5,8 @@ import com.game.miniCivilization.domain.Player;
 import com.game.miniCivilization.domain.Tile;
 import com.game.miniCivilization.domain.enums.Land;
 import com.game.miniCivilization.repository.GameRepo;
-import com.game.miniCivilization.repository.TileRepo;
-import com.game.miniCivilization.repository.UnitRepo;
 import com.game.miniCivilization.repository.PlayerRepo;
+import com.game.miniCivilization.repository.TileRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 

@@ -2,9 +2,9 @@ package com.game.miniCivilization.controller;
 
 
 import com.game.miniCivilization.domain.Player;
-import com.game.miniCivilization.service.CreateService;
 import com.game.miniCivilization.repository.GameRepo;
 import com.game.miniCivilization.repository.PlayerRepo;
+import com.game.miniCivilization.service.CreateService;
 import com.game.miniCivilization.service.GameService;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +19,9 @@ import java.util.Map;
 @Controller
 public class PageControl {
     @Autowired
-    private CreateService createService;
-    @Autowired
     private PlayerRepo playerRepo;
+    @Autowired
+    private CreateService createService;
     @Autowired
     private GameService gameService;
     @Autowired
@@ -65,7 +65,7 @@ public class PageControl {
             @AuthenticationPrincipal Player player,
             @RequestParam(value = "gameName") @NonNull String gameName
     ){
-        createService.createGame(gameName, player);
+        gameService.createGame(gameName, player);
         return "redirect:/main";
     }
 
@@ -83,7 +83,7 @@ public class PageControl {
             @AuthenticationPrincipal Player player,
             @RequestParam(value = "gameId") Long id
     ){
-        createService.connectGame(id,player);
+        createService.connectGame(id, player);
         return "redirect:/main";
     }
 

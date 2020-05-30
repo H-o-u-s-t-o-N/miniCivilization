@@ -3,8 +3,10 @@ package com.game.miniCivilization.service;
 import com.game.miniCivilization.domain.Player;
 import com.game.miniCivilization.domain.Tile;
 import com.game.miniCivilization.domain.Unit;
-import com.game.miniCivilization.domain.units.*;
-import com.game.miniCivilization.repository.PlayerRepo;
+import com.game.miniCivilization.domain.units.Archer;
+import com.game.miniCivilization.domain.units.ArcherVeteran;
+import com.game.miniCivilization.domain.units.Warrior;
+import com.game.miniCivilization.domain.units.WarriorVeteran;
 import com.game.miniCivilization.repository.TileRepo;
 import com.game.miniCivilization.repository.UnitRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +20,7 @@ public class UnitService {
     private UnitRepo unitRepo;
     @Autowired
     private TileRepo tileRepo;
-    @Autowired
-    private PlayerRepo playerRepo;
+
 
 
     public void moveUnit(Long tileIdStart, Long tileIdEnd, Player player){
@@ -29,57 +30,63 @@ public class UnitService {
         Unit tempUnitA = tileStart.getUnit();
         Unit tempUnitB = tileEnd.getUnit();
         if(tempUnitA != null) {
+
             if (checkPlayer(tempUnitA,player)) {
+//                ActionPoint to move
                 if (canMove(tempUnitA, tileEnd)) {
-//                    ActionPoint to go
+
                     if (tempUnitB != null) {
-                        if (canFight(tempUnitA, tempUnitB)) {
-                            if (canKill(tempUnitA, tempUnitB)) {
-                                if (tempUnitA.isMustMoveAfterBattle()) {
-                                    tileEnd.setUnit(tempUnitA);
-                                    tileStart.setUnit(null);
+//                        check Enemy unit
+                        if( ! tempUnitB.getPlayer().getUsername().equals(player.getUsername())) {
+//                            use radius for check attack
+                            if (canFight(tempUnitA, tempUnitB)) {
+                                if (canKill(tempUnitA, tempUnitB)) {
+                                    if (tempUnitA.isMustMoveAfterBattle()) {
+                                        tileEnd.setUnit(tempUnitA);
+                                        tileStart.setUnit(null);
 
-                                    setActionPointAfterMove(tempUnitA, tileEnd);
-                                    tempUnitA.setActionPoint(tempUnitA.getActionPoint() - 1);
-                                    tempUnitA.setExperience(tempUnitA.getExperience() + 1);
-                                    tempUnitA.setCoordinats(tileEnd);
+                                        setActionPointAfterMove(tempUnitA, tileEnd);
+                                        addEX(tempUnitA);
+                                        tempUnitA.setCoordinats(tileEnd);
 
-                                    unitRepo.delete(tempUnitB);
-                                    unitRepo.save(tempUnitA);
-                                    tileRepo.saveAll(asList(tileEnd, tileStart));
-                                    if(checkExperience(tempUnitA)){
-                                        levelUp(tileEnd);
+                                        unitRepo.save(tempUnitA);
+                                        unitRepo.delete(tempUnitB);
+                                        tileRepo.saveAll(asList(tileEnd, tileStart));
+
+                                        if (checkExperience(tempUnitA)) {
+                                            levelUp(tileEnd);
+                                        }
+                                    } else {
+//                                    only for archers after battle
+                                        tileEnd.setUnit(null);
+
+                                        setActionPointAfterAttack(tempUnitA);
+                                        addEX(tempUnitA);
+
+                                        unitRepo.delete(tempUnitB);
+                                        tileRepo.save(tileEnd);
                                     }
                                 } else {
-//                                    only for archers
-                                    tempUnitA.setActionPoint(tempUnitA.getActionPoint() - 1);
-                                    tempUnitA.setExperience(tempUnitA.getExperience() + 1);
-                                    tileEnd.setUnit(null);
+                                    tempUnitB.setHealth(tempUnitB.getHealth() - tempUnitA.getDamage());
 
-                                    unitRepo.delete(tempUnitB);
-                                    unitRepo.save(tempUnitA);
-                                    tileRepo.save(tileEnd);
+                                    setActionPointAfterAttack(tempUnitA);
+
+                                    unitRepo.save(tempUnitB);
                                 }
                             } else {
-                                tempUnitB.setHealth(tempUnitB.getHealth() - tempUnitA.getDamage());
-
-                                tempUnitA.setActionPoint(tempUnitA.getActionPoint() - 1);
-
-                                unitRepo.saveAll(asList(tempUnitA, tempUnitB));
-                            }
-                        } else {
 //                            warrior can move but dont see enemy
-                            Tile tempTarget = getTargetTile(tempUnitA, tileEnd);
+                                Tile tempTarget = getTargetTile(tempUnitA, tileEnd);
 
-                            setActionPointAfterMove(tempUnitA, tempTarget);
+                                setActionPointAfterMove(tempUnitA, tempTarget);
 
-                            tempTarget.setUnit(tempUnitA);
-                            tempUnitA.setCoordinats(tempTarget);
-                            if (tempTarget != tileEnd) {
-                                tileStart.setUnit(null);
+                                tempTarget.setUnit(tempUnitA);
+                                tempUnitA.setCoordinats(tempTarget);
+                                if (tempTarget != tileEnd) {
+                                    tileStart.setUnit(null);
+                                }
+                                unitRepo.save(tempUnitA);
+                                tileRepo.saveAll(asList(tileStart, tempTarget));
                             }
-                            unitRepo.save(tempUnitA);
-                            tileRepo.saveAll(asList(tileStart, tempTarget));
                         }
                     } else {
 //                        only move
@@ -94,26 +101,30 @@ public class UnitService {
                         tileRepo.saveAll(asList(tileEnd, tileStart));
                     }
                 }
-//                archer
+//               attack archer if it cant move
                 if (tempUnitB != null) {
-                    if (canFight(tempUnitA, tempUnitB)) {
-                        if (canKill(tempUnitA, tempUnitB)) {
-                            tileEnd.setUnit(null);
+//                    check Enemy unit
+                    if (!tempUnitB.getPlayer().getUsername().equals(player.getUsername())) {
+//                        use radius for check attack
+                        if (canFight(tempUnitA, tempUnitB)) {
+                            if (canKill(tempUnitA, tempUnitB)) {
+                                tileEnd.setUnit(null);
 
-                            tempUnitA.setActionPoint(tempUnitA.getActionPoint() - 1);
-                            tempUnitA.setExperience(tempUnitA.getExperience() + 1);
+                                setActionPointAfterAttack(tempUnitA);
+                                addEX(tempUnitA);
 
-                            unitRepo.delete(tempUnitB);
-                            unitRepo.save(tempUnitA);
-                            if (checkExperience(tempUnitA)) {
-                                levelUp(tileStart);
+                                unitRepo.delete(tempUnitB);
+
+                                if (checkExperience(tempUnitA)) {
+                                    levelUp(tileStart);
+                                }
+                            } else {
+                                tempUnitB.setHealth(tempUnitB.getHealth() - tempUnitA.getDamage());
+
+                                setActionPointAfterAttack(tempUnitA);
+
+                                unitRepo.saveAll(asList(tempUnitA, tempUnitB));
                             }
-                        } else {
-                            tempUnitB.setHealth(tempUnitB.getHealth() - tempUnitA.getDamage());
-
-                            tempUnitA.setActionPoint(tempUnitA.getActionPoint() - 1);
-
-                            unitRepo.saveAll(asList(tempUnitA, tempUnitB));
                         }
                     }
                 }
@@ -135,7 +146,6 @@ public class UnitService {
         }
 
         int targetY ;
-
         if(differY == 0) {
             targetY = endpoint.getCoordY();
         }else if(differY > 0) {
@@ -163,19 +173,30 @@ public class UnitService {
         return (unit.getActionPoint() >= differX && unit.getActionPoint() >= differY);
     }
 
-    private void setActionPointAfterMove(Unit unit, Tile endpoint){
-        int x = Math.abs(unit.getCoordX()-endpoint.getCoordX());
-        int y = Math.abs(unit.getCoordY()-endpoint.getCoordY());
-        int z = Math.max(x,y);
-        unit.setActionPoint(unit.getActionPoint() - z);
-    }
-
     private boolean checkExperience(Unit unit){
         return unit.getExperience() >= 3;
     }
 
     private boolean checkPlayer(Unit unit, Player player){
         return unit.getPlayer().getUsername().equals(player.getUsername());
+    }
+
+    private void addEX(Unit unit){
+        unit.setExperience(unit.getExperience() + 1);
+        unitRepo.save(unit);
+    }
+
+    private void setActionPointAfterAttack(Unit unit){
+        unit.setActionPoint(unit.getActionPoint() - 1);
+        unitRepo.save(unit);
+    }
+
+    private void setActionPointAfterMove(Unit unit, Tile endpoint){
+        int x = Math.abs(unit.getCoordX()-endpoint.getCoordX());
+        int y = Math.abs(unit.getCoordY()-endpoint.getCoordY());
+        int z = Math.max(x,y);
+        unit.setActionPoint(unit.getActionPoint() - z);
+        unitRepo.save(unit);
     }
     
     private void levelUp(Tile tile){
@@ -198,8 +219,5 @@ public class UnitService {
             unitRepo.delete(tempUnit);
             tileRepo.save(tile);
         }
-        if(tempUnit.getClass() == Colonist.class){
-        }
-
     }
 }

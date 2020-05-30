@@ -1,9 +1,7 @@
 package com.game.miniCivilization.service;
 
-import com.game.miniCivilization.domain.City;
-import com.game.miniCivilization.domain.Game;
-import com.game.miniCivilization.domain.Unit;
-import com.game.miniCivilization.domain.Player;
+import com.game.miniCivilization.domain.*;
+import com.game.miniCivilization.domain.enums.Land;
 import com.game.miniCivilization.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +10,7 @@ import static java.util.Arrays.asList;
 
 @Service
 public class GameService {
+    private CreateService createService;
     @Autowired
     private UnitRepo unitRepo;
     @Autowired
@@ -20,6 +19,8 @@ public class GameService {
     private CityRepo cityRepo;
     @Autowired
     private PlayerRepo playerRepo;
+    @Autowired
+    private TileRepo tileRepo;
 
     public void restoreActionPoint(Player player){
         Iterable<Unit> units = unitRepo.findAllByPlayer(player);
@@ -44,11 +45,41 @@ public class GameService {
         }
     }
 
-    public void addMoney(Player player){
-        Iterable<City> cities = cityRepo.findAllByPlayer(player);
-//      money   set  +=  cities.size() * 200
-
-
+    public void createGame(String gameName, Player player){
+        Game game = new Game(player);
+        game.setName(gameName);
+        game.setStartMoney();
+        gameRepo.save(game);
+        player.setActiveGameId(game.getId());
+        playerRepo.save(player);
     }
+
+//    public void connectGame(Long gameId, Player player){
+//        Game game = gameRepo.findById(gameId).get();
+//        if(!game.getPlayerA().getUsername().equals(player.getUsername())){
+//            game.setPlayerB(player);
+//            gameRepo.save(game);
+//            Player playerA = game.getPlayerA();
+//            playerA.setCanMakeMove(true);
+//            player.setActiveGameId(gameId);
+//            playerRepo.saveAll(asList(player,playerA));
+//
+//            createService.createStartParam(gameRepo.findById(gameId).get());
+//            restoreActionPoint(playerA);
+//            restoreActionPoint(player);
+//        }else {
+//            player.setActiveGameId(gameId);
+//            playerRepo.save(player);
+//        }
+//
+//    }
+
+
+
+//    public void addMoney(Player player){
+//        Iterable<City> cities = cityRepo.findAllByPlayer(player);
+////      money   set  +=  cities.size() * 200
+//
+//    }
 
 }

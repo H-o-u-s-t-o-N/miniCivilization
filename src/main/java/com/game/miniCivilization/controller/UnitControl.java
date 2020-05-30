@@ -20,32 +20,29 @@ public class UnitControl {
     private UnitService unitService;
     @Autowired
     private TileRepo tileRepo;
-    @Autowired
-    private PlayerRepo playerRepo;
+
 
 
     @PostMapping("/createCity")
     public void createCity(
             @AuthenticationPrincipal Player player,
             @RequestParam(value = "idTile") Long tileId){
-        Player playerDB = playerRepo.findByUsername(player.getUsername());
-        if(playerDB.isCanMakeMove()) {
+
             createService.createCity(tileId, player);
         }
-    }
+
 
     @PostMapping("/createColonist")
     public void createColonist(
             @AuthenticationPrincipal Player player,
             @RequestParam(value = "idTile") Long tileId){
         Tile tile = tileRepo.findById(tileId).get();
-        Player playerDB = playerRepo.findByUsername(player.getUsername());
-        if(playerDB.isCanMakeMove()) {
+
             if (tile.getCity() != null) {
                 if (tile.getCity().getPlayer().getUsername().equals(player.getUsername()))
                     createService.createColonist(tileId, player);
             }
-        }
+
     }
 
     @PostMapping("/createArcher")
@@ -53,13 +50,12 @@ public class UnitControl {
             @AuthenticationPrincipal Player player,
             @RequestParam(value = "idTile") Long tileId){
         Tile tile = tileRepo.findById(tileId).get();
-        Player playerDB = playerRepo.findByUsername(player.getUsername());
-        if(playerDB.isCanMakeMove()) {
+
             if (tile.getCity() != null) {
                 if (tile.getCity().getPlayer().getUsername().equals(player.getUsername()))
                     createService.createArcher(tileId, player);
             }
-        }
+
     }
 
     @PostMapping("/createWarrior")
@@ -67,13 +63,12 @@ public class UnitControl {
             @AuthenticationPrincipal Player player,
             @RequestParam(value = "idTile") Long tileId){
         Tile tile = tileRepo.findById(tileId).get();
-        Player playerDB = playerRepo.findByUsername(player.getUsername());
-        if(playerDB.isCanMakeMove()) {
+
             if (tile.getCity() != null) {
                 if (tile.getCity().getPlayer().getUsername().equals(player.getUsername()))
                     createService.createWarrior(tileId, player);
             }
-        }
+
     }
 
     @PostMapping("/moveUnit")
@@ -81,9 +76,8 @@ public class UnitControl {
             @AuthenticationPrincipal Player player,
             @RequestParam(value = "idStart") @NonNull Long tileIdStart,
             @RequestParam(value = "idEnd") @NonNull Long tileIdEnd){
-        Player playerDB = playerRepo.findByUsername(player.getUsername());
-        if(playerDB.isCanMakeMove()) {
+
             unitService.moveUnit(tileIdStart, tileIdEnd, player);
-        }
+
     }
 }

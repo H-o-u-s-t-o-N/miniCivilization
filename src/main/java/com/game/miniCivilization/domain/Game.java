@@ -15,6 +15,11 @@ public class Game {
     @OneToOne
     private Player playerB;
 
+//    private int sizeX;
+//    private int sizeY;
+//
+//    private Iterable<Tile> gamefield;
+
     private Long moneyA;
     private Long moneyB;
 

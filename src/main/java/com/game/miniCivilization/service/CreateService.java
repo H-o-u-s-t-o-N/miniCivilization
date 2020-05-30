@@ -28,15 +28,6 @@ public class CreateService {
         this.gameService = gameService;
     }
 
-    public void createGame(String gameName, Player player){
-        Game game = new Game(player);
-        game.setName(gameName);
-        game.setStartMoney();
-        gameRepo.save(game);
-        player.setActiveGameId(game.getId());
-        playerRepo.save(player);
-    }
-
     public void connectGame(Long gameId, Player player){
         Game game = gameRepo.findById(gameId).get();
         if(!game.getPlayerA().getUsername().equals(player.getUsername())){
@@ -57,36 +48,6 @@ public class CreateService {
 
     }
 
-    private void createStartParam(Game game) {
-        Player playerA = game.getPlayerA();
-        Player playerB = game.getPlayerB();
-        City cityA = new City(playerA);
-        City cityB = new City(playerB);
-        cityRepo.saveAll(asList(cityA,cityB));
-
-        Tile tileACity = tileRepo.findById(34L).get();
-        tileACity.setLand(Land.Grass);
-        tileACity.setCity(cityA);
-
-
-        createArcher(50L,playerA);
-        createColonist(35L,playerA);
-        createWarrior(51L,playerA);
-
-
-        Tile tileBCity = tileRepo.findById(221L).get();
-        tileBCity.setLand(Land.Grass);
-        tileBCity.setCity(cityB);
-
-        createArcher(205L,playerB);
-        createColonist(220L,playerB);
-        createWarrior(204L,playerB);
-
-
-
-
-        tileRepo.saveAll(asList(tileACity,tileBCity));
-    }
 
     public void createCity(Long id, Player player){
         Tile tempTile = tileRepo.findById(id).get();
@@ -134,5 +95,35 @@ public class CreateService {
         unitRepo.save(warrior);
         tile.setUnit(warrior);
         tileRepo.save(tile);
+    }
+
+    public void createStartParam(Game game) {
+        Player playerA = game.getPlayerA();
+        Player playerB = game.getPlayerB();
+        City cityA = new City(playerA);
+        City cityB = new City(playerB);
+        cityRepo.saveAll(asList(cityA,cityB));
+
+        Tile tileACity = tileRepo.findById(34L).get();
+        tileACity.setLand(Land.Grass);
+        tileACity.setCity(cityA);
+        tileRepo.save(tileACity);
+
+        createArcher(50L,playerA);
+        createColonist(35L,playerA);
+        createWarrior(51L,playerA);
+
+//==============================================
+
+        Tile tileBCity = tileRepo.findById(221L).get();
+        tileBCity.setLand(Land.Grass);
+        tileBCity.setCity(cityB);
+        tileRepo.save(tileBCity);
+
+        createArcher(205L,playerB);
+        createColonist(220L,playerB);
+        createWarrior(204L,playerB);
+
+
     }
 }
