@@ -156,7 +156,10 @@ function createTable(commits) {
                 land.setAttribute("id", commitsSorted[iter].id);
                 if (commitsSorted[iter].land === "Mountain") {
                     land.classList.add("mountain");
-                } else {
+                }else if (commitsSorted[iter].land === "Desert"){
+                    land.classList.add("desert");
+                }
+                else {
                     land.classList.add("grass");
                 }
                         const city = document.createElement("div");
@@ -301,62 +304,72 @@ function restoreActionPoints() {
 }
 
 function createCity() {
-  let form = new FormData(document.getElementById("createCityForm"));
+    if(isClickMove) {
+        let form = new FormData(document.getElementById("createCityForm"));
 
-  if (form.values() !== null) {
-    fetch(urlCreateCity, {
-      method: "POST",
-      redirect: "manual",
-      body: form
-    });
-  }
+        if (form.values() !== null) {
+            fetch(urlCreateCity, {
+                method: "POST",
+                redirect: "manual",
+                body: form
+            });
+        }
+    }
 }
 
 function createColonist() {
-    let form = new FormData(document.getElementById("createColonistForm"));
-    if (form.values() !== null) {
-        fetch(urlCreateColonist, {
-            method: "POST",
-            redirect: "manual",
-            body: form
-        });
+    if(isClickMove) {
+        let form = new FormData(document.getElementById("createColonistForm"));
+        if (form.values() !== null) {
+            fetch(urlCreateColonist, {
+                method: "POST",
+                redirect: "manual",
+                body: form
+            });
+        }
     }
 }
 
 function createArcher() {
-  const form = new FormData(document.getElementById("createArcherForm"));
+    if(isClickMove) {
+        const form = new FormData(document.getElementById("createArcherForm"));
 
-  if (form.values() !== null) {
-    fetch(urlCreateArcher, {
-      method: "POST",
-      redirect: "manual",
-      body: form
-    });
-  }
+        if (form.values() !== null) {
+            fetch(urlCreateArcher, {
+                method: "POST",
+                redirect: "manual",
+                body: form
+            });
+        }
+    }
 }
 
 function createWarrior() {
-  let form = new FormData(document.getElementById("createWarriorForm"));
+    if(isClickMove) {
+        let form = new FormData(document.getElementById("createWarriorForm"));
 
-  if (form.values() !== null) {
-    fetch(urlCreateWarrior, {
-      method: "POST",
-      redirect: "manual",
-      body: form
-    });
-  }
+        if (form.values() !== null) {
+            fetch(urlCreateWarrior, {
+                method: "POST",
+                redirect: "manual",
+                body: form
+            });
+        }
+    }
 }
 
 function moveUnit() {
-  let form = new FormData(document.getElementById("moveUnitForm"));
+    if(isClickMove) {
+        let form = new FormData(document.getElementById("moveUnitForm"));
 
-  if (form.values() !== null) {
-    fetch(urlMoveUnit, {
-      method: "POST",
-      redirect: "manual",
-      body: form
-    });
-  }
+        if (form.values() !== null) {
+            fetch(urlMoveUnit, {
+                method: "POST",
+                redirect: "manual",
+                body: form
+            });
+        }
+    }
 }
 
 function finishTurn(){

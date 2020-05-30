@@ -100,6 +100,12 @@ img {
     background: #fff;
     color: #2c536c;
 }
+.create{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+}
 
 
 .table {
@@ -198,5 +204,8 @@ img {
 }
 .grass{
     background: transparent url("../img/Grass100.jpg") no-repeat center center;
+}
+.desert{
+    background: transparent url("../img/Desert100.jpg") no-repeat center center;
 }
 

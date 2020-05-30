@@ -2,6 +2,7 @@ package com.game.miniCivilization.controller;
 
 import com.game.miniCivilization.domain.Player;
 import com.game.miniCivilization.domain.Tile;
+import com.game.miniCivilization.repository.PlayerRepo;
 import com.game.miniCivilization.repository.TileRepo;
 import com.game.miniCivilization.service.CreateService;
 import com.game.miniCivilization.service.UnitService;
@@ -17,14 +18,20 @@ public class UnitControl {
     private CreateService createService;
     @Autowired
     private UnitService unitService;
+    @Autowired
     private TileRepo tileRepo;
+    @Autowired
+    private PlayerRepo playerRepo;
 
 
     @PostMapping("/createCity")
     public void createCity(
             @AuthenticationPrincipal Player player,
             @RequestParam(value = "idTile") Long tileId){
-        createService.createCity(tileId, player);
+        Player playerDB = playerRepo.findByUsername(player.getUsername());
+        if(playerDB.isCanMakeMove()) {
+            createService.createCity(tileId, player);
+        }
     }
 
     @PostMapping("/createColonist")
@@ -32,9 +39,12 @@ public class UnitControl {
             @AuthenticationPrincipal Player player,
             @RequestParam(value = "idTile") Long tileId){
         Tile tile = tileRepo.findById(tileId).get();
-        if(tile.getCity() != null){
-            if(tile.getCity().getPlayer().getUsername().equals(player.getUsername()))
-                createService.createColonist(tileId, player);
+        Player playerDB = playerRepo.findByUsername(player.getUsername());
+        if(playerDB.isCanMakeMove()) {
+            if (tile.getCity() != null) {
+                if (tile.getCity().getPlayer().getUsername().equals(player.getUsername()))
+                    createService.createColonist(tileId, player);
+            }
         }
     }
 
@@ -43,9 +53,12 @@ public class UnitControl {
             @AuthenticationPrincipal Player player,
             @RequestParam(value = "idTile") Long tileId){
         Tile tile = tileRepo.findById(tileId).get();
-        if(tile.getCity() != null) {
-            if (tile.getCity().getPlayer().getUsername().equals(player.getUsername()))
-                createService.createArcher(tileId, player);
+        Player playerDB = playerRepo.findByUsername(player.getUsername());
+        if(playerDB.isCanMakeMove()) {
+            if (tile.getCity() != null) {
+                if (tile.getCity().getPlayer().getUsername().equals(player.getUsername()))
+                    createService.createArcher(tileId, player);
+            }
         }
     }
 
@@ -54,9 +67,12 @@ public class UnitControl {
             @AuthenticationPrincipal Player player,
             @RequestParam(value = "idTile") Long tileId){
         Tile tile = tileRepo.findById(tileId).get();
-        if(tile.getCity() != null){
-            if(tile.getCity().getPlayer().getUsername().equals(player.getUsername()))
-                createService.createWarrior(tileId, player);
+        Player playerDB = playerRepo.findByUsername(player.getUsername());
+        if(playerDB.isCanMakeMove()) {
+            if (tile.getCity() != null) {
+                if (tile.getCity().getPlayer().getUsername().equals(player.getUsername()))
+                    createService.createWarrior(tileId, player);
+            }
         }
     }
 
@@ -65,6 +81,9 @@ public class UnitControl {
             @AuthenticationPrincipal Player player,
             @RequestParam(value = "idStart") @NonNull Long tileIdStart,
             @RequestParam(value = "idEnd") @NonNull Long tileIdEnd){
-        unitService.moveUnit(tileIdStart,tileIdEnd, player);
+        Player playerDB = playerRepo.findByUsername(player.getUsername());
+        if(playerDB.isCanMakeMove()) {
+            unitService.moveUnit(tileIdStart, tileIdEnd, player);
+        }
     }
 }

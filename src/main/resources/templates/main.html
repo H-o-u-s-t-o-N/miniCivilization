@@ -26,7 +26,7 @@
 <!--                    <input class="dws-submit" type="button" value="AP" onclick="restoreActionPoints()">-->
                 </form>
 
-                <form th:action="@{/logout}" method="post">
+                <form style="margin-bottom: 100px" th:action="@{/logout}" method="post">
                     <input class="dws-submit" type="submit" value="Sign Out"/>
                 </form>
 
@@ -44,29 +44,31 @@
 <!--                                                                                                                                                                </div>-->
 <!--                                                                                                                                                            </div>-->
             <div class="interface">
-                <div class="createArcherForm">
-                    <form id="createArcherForm">
-                        <input type="hidden" class="idTileA" name="idTile" placeholder="idTile">
-                        <button type="submit" class="dws-submit" onclick="createArcher()">Create Archer</button>
-                    </form>
-                </div>
-                <div class="createWarriorForm">
-                    <form id="createWarriorForm">
-                        <input type="hidden" class="idTileA" name="idTile" placeholder="idTile">
-                        <button type="submit" class="dws-submit" onclick="createWarrior()">Create Warrior</button>
-                    </form>
-                </div>
-                <div class="createCityForm">
-                    <form id="createCityForm">
-                        <input type="hidden" class="idTileA" name="idTile" placeholder="idTile">
-                        <button type="submit" class="dws-submit"  onclick="createCity()">Create City</button>
-                    </form>
-                </div>
-                <div class="createColonistForm">
-                    <form id="createColonistForm">
-                        <input type="hidden" class="idTileA" name="idTile" placeholder="idTile">
-                        <button type="submit" class="dws-submit"  onclick="createColonist()">Create Colonist</button>
-                    </form>
+                <div class="create">
+                    <div class="createArcherForm">
+                        <form id="createArcherForm">
+                            <input type="hidden" class="idTileA" name="idTile" placeholder="idTile">
+                            <button type="submit" class="dws-submit" onclick="createArcher()">Create Archer</button>
+                        </form>
+                    </div>
+                    <div class="createWarriorForm">
+                        <form id="createWarriorForm">
+                            <input type="hidden" class="idTileA" name="idTile" placeholder="idTile">
+                            <button type="submit" class="dws-submit" onclick="createWarrior()">Create Warrior</button>
+                        </form>
+                    </div>
+                    <div class="createCityForm">
+                        <form id="createCityForm">
+                            <input type="hidden" class="idTileA" name="idTile" placeholder="idTile">
+                            <button type="submit" class="dws-submit"  onclick="createCity()">Create City</button>
+                        </form>
+                    </div>
+                    <div class="createColonistForm">
+                        <form id="createColonistForm">
+                            <input type="hidden" class="idTileA" name="idTile" placeholder="idTile">
+                            <button type="submit" class="dws-submit"  onclick="createColonist()">Create Colonist</button>
+                        </form>
+                    </div>
                 </div>
                 <div class="moveUnitForm">
                     <form id="moveUnitForm">

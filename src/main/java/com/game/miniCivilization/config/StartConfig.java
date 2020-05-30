@@ -41,9 +41,9 @@ public class StartConfig {
 
 //                Land
                 int x = (int)(Math.random()*100);
-                if(x >= 95){
+                if(x >= 90){
                     tempTile.setLand(Land.Mountain);
-                }else if(x <=20){
+                }else if(x <= 20){
                     tempTile.setLand(Land.Desert);
                 }else {
                     tempTile.setLand(Land.Grass);
@@ -76,6 +76,7 @@ public class StartConfig {
         game2.setName("Second Game");
         game2.setStartMoney();
         gameRepo.save(game2);
+
 
     }
 }

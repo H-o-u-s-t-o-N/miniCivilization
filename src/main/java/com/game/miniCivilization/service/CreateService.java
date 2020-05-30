@@ -17,13 +17,15 @@ public class CreateService {
     private final UnitRepo unitRepo;
     private final GameRepo gameRepo;
     private final PlayerRepo playerRepo;
+    private final GameService gameService;
 
-    public CreateService(TileRepo tileRepo, CityRepo cityRepo, UnitRepo unitRepo, GameRepo gameRepo, PlayerRepo playerRepo) {
+    public CreateService(TileRepo tileRepo, CityRepo cityRepo, UnitRepo unitRepo, GameRepo gameRepo, PlayerRepo playerRepo, GameService gameService) {
         this.tileRepo = tileRepo;
         this.cityRepo = cityRepo;
         this.unitRepo = unitRepo;
         this.gameRepo = gameRepo;
         this.playerRepo = playerRepo;
+        this.gameService = gameService;
     }
 
     public void createGame(String gameName, Player player){
@@ -42,13 +44,17 @@ public class CreateService {
             gameRepo.save(game);
             Player playerA = game.getPlayerA();
             playerA.setCanMakeMove(true);
-            player.setActiveGameId(game.getId());
+            player.setActiveGameId(gameId);
             playerRepo.saveAll(asList(player,playerA));
+
+            createStartParam(gameRepo.findById(gameId).get());
+            gameService.restoreActionPoint(playerA);
+            gameService.restoreActionPoint(player);
         }else {
-            player.setActiveGameId(game.getId());
+            player.setActiveGameId(gameId);
             playerRepo.save(player);
         }
-        createStartParam(gameRepo.findById(gameId).get());
+
     }
 
     private void createStartParam(Game game) {
@@ -56,10 +62,12 @@ public class CreateService {
         Player playerB = game.getPlayerB();
         City cityA = new City(playerA);
         City cityB = new City(playerB);
+        cityRepo.saveAll(asList(cityA,cityB));
 
         Tile tileACity = tileRepo.findById(34L).get();
         tileACity.setLand(Land.Grass);
         tileACity.setCity(cityA);
+
 
         createArcher(50L,playerA);
         createColonist(35L,playerA);
@@ -74,7 +82,9 @@ public class CreateService {
         createColonist(220L,playerB);
         createWarrior(204L,playerB);
 
-        cityRepo.saveAll(asList(cityA,cityB));
+
+
+
         tileRepo.saveAll(asList(tileACity,tileBCity));
     }
 
