@@ -21,6 +21,7 @@ public class City {
 
     public City(Player player) {
         this.player = player;
+        this.name = "City " + player.getUsername();
     }
 
     public long getId() {
@@ -38,7 +39,4 @@ public class City {
 //    ====================================================================
 
 
-    public void setName(String name) {
-        this.name = "City " + name;
-    }
 }

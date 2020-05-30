@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Arrays;
+
 @SpringBootTest
 class MiniCivilizationApplicationTests {
 		@Autowired
@@ -28,6 +30,11 @@ class MiniCivilizationApplicationTests {
 			System.out.println("yes, its working");
 		else
 			System.out.println("Fuuu****K");
+	}
+	@Test
+	void orderById(){
+		Iterable<Tile> tiles = tileRepo.letsFindAll();
+		tiles.forEach(tile -> System.out.println(tile.getId()));
 	}
 
 }

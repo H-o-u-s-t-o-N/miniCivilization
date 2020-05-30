@@ -2,25 +2,28 @@ package com.game.miniCivilization.controller;
 
 
 import com.game.miniCivilization.domain.Player;
-import com.game.miniCivilization.domain.enums.Role;
-import com.game.miniCivilization.domain.service.CreateService;
 import com.game.miniCivilization.repository.GameRepo;
 import com.game.miniCivilization.repository.PlayerRepo;
+import com.game.miniCivilization.service.CreateService;
+import com.game.miniCivilization.service.GameService;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Collections;
 import java.util.Map;
 
 @Controller
 public class PageControl {
     @Autowired
+    private PlayerRepo playerRepo;
+    @Autowired
     private CreateService createService;
     @Autowired
-    private PlayerRepo playerRepo;
+    private GameService gameService;
     @Autowired
     private GameRepo gameRepo;
 
@@ -37,7 +40,6 @@ public class PageControl {
             return "registration";
         }
         player.setActive(true);
-//        player.setRoles(Collections.singleton(Role.ADMIN));
         playerRepo.save(player);
         return "redirect:/login";
     }
@@ -45,7 +47,11 @@ public class PageControl {
 
 
     @GetMapping("/main")
-    public String main() {
+    public String main(
+            @AuthenticationPrincipal Player player,
+            Map<String,Object> model
+    ) {
+        model.put("player", player);
         return "main";
     }
 
@@ -56,9 +62,10 @@ public class PageControl {
 
     @PostMapping("/createGame")
     public String createGame(
-            @AuthenticationPrincipal Player player
+            @AuthenticationPrincipal Player player,
+            @RequestParam(value = "gameName") @NonNull String gameName
     ){
-        createService.createGame(player);
+        gameService.createGame(gameName, player);
         return "redirect:/main";
     }
 
@@ -70,6 +77,16 @@ public class PageControl {
         model.put("games",gameRepo.findAll());
         return "findGame";
     }
+
+    @PostMapping("/connectGame")
+    public String connectGame(
+            @AuthenticationPrincipal Player player,
+            @RequestParam(value = "gameId") Long id
+    ){
+        createService.connectGame(id, player);
+        return "redirect:/main";
+    }
+
 
 
 

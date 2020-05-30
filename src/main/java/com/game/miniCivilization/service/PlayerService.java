@@ -1,4 +1,4 @@
-package com.game.miniCivilization.domain.service;
+package com.game.miniCivilization.service;
 
 
 import com.game.miniCivilization.repository.PlayerRepo;

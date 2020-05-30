@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TileRepo extends CrudRepository<Tile, Long> {
+    @Query("from Tile t order by t.id")
+    Iterable<Tile> letsFindAll();
+
     @Query("from Tile t where t.coordX = :coordX and t.coordY = :coordY")
     Tile findByCoordinats(
             @Param("coordX") int coordX,

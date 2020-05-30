@@ -3,32 +3,37 @@
 <head>
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:href="@{/static/css/greeting.css}" rel="stylesheet" />
+    <link th:href="@{/static/css/font-awesome.css}" rel="stylesheet" />
 </head>
 <body>
-<h1>Hello, welcome to miniCivilization</h1>
-<br>
-<br>
-<form method="post" action="http://localhost:8080/createGame">
-    <button type="submit" >Create Game</button>
-</form>
-<br>
-<form method="post" action="http://localhost:8080/findGame">
-    <button type="submit" >Find Game</button>
-</form>
-<br>
-<br>
+<div class="container">
+    <img th:src="@{/static/img/desktop.png}">
+    <div class="title1">Welcome to</div>
+    <div class="title2">miniCivilization</div>
+
+
+    <form th:action="@{/createGame}" method="post">
+        <div class="dws-input">
+            <input type="text" name="gameName" placeholder="Enter Game Name">
+        </div>
+        <input class="dws-submit" type="submit" name="submit" value="Create Game"><br />
+    </form>
+    <h6>Or you can</h6>
+    <form th:action="@{/findGame}" method="post">
+        <input class="dws-submit" type="submit" name="submit" value="Find Game"><br />
+    </form>
 <div>
     <h3>
         For playing you must be registered
     </h3>
-    <br>
-    <br>
     <a th:href="@{/login}">Login</a>
     <br>
     <br>
     <a th:href="@{/registration}">Add new Player</a>
     <br>
 
+</div>
 </div>
 </body>
 </html>

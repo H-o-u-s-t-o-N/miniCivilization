@@ -15,6 +15,11 @@ public class Game {
     @OneToOne
     private Player playerB;
 
+//    private int sizeX;
+//    private int sizeY;
+//
+//    private Iterable<Tile> gamefield;
+
     private Long moneyA;
     private Long moneyB;
 
@@ -59,6 +64,11 @@ public class Game {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setStartMoney() {
+        this.moneyA = 1000L;
+        this.moneyB = 1000L;
     }
 
     public void setMoneyA(Long moneyA) {
